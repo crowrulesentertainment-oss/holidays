@@ -27,6 +27,8 @@
   byId('holiday-hub-traditions').textContent=hub.traditions;
   byId('holiday-hub-food').textContent=hub.food;
   byId('holiday-hub-media').textContent=hub.media;
+  const planLink=byId('holiday-plan-link');
+  if(planLink) planLink.href='planner.html?holiday='+encodeURIComponent(hub.name);
   const month=Number(hub.date.slice(5,7));
   const season=month===12||month<=2?'winter':month<=5?'spring':month<=8?'summer':'autumn';
   byId('holiday-hub-hero').classList.add('hub-season-'+season);
