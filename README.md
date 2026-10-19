@@ -1,4 +1,4 @@
-# CrowRules Holidays Hub
+# CrowRules Holidays Hub — V3.0
 
 A fresh, static HTML/CSS/JavaScript foundation for the CrowRules Entertainment Holidays division.
 
@@ -64,3 +64,17 @@ Open `index.html` in a modern browser. No build step or framework is required.
 - Added holiday-specific activity prompts and recipe inspiration across the curated hub collection, including contextual notes for cultural and religious observances. Recipes remain inspiration, with exact quantities and cooking directions delegated to tested sources.
 - Added source links to Washington OSPI, OPM, the United Nations, and Washington State University for date checking. Fixed-weekday US holidays and Western Easter use explicit calendar rules; lunar, Hebrew-calendar, and local astronomical dates remain paused for local verification.
 - The media and event tools are discovery links, not a licensed media library or verified event feed. Confirm rights, dates, and organizer details before publishing or attending.
+
+
+## V3.0 — connected holiday experience
+- Rebuilt the home page around a cinematic editorial dashboard and searchable discovery cards.
+- Added `traditions.html` as a searchable, context-first directory over the curated holiday hub dataset.
+- Added `planner.html`, a private-by-default celebration checklist with dates, categories, completion state, and JSON export. Planner data stays in the visitor's browser local storage; it is not uploaded.
+- Added `assets/css/v3.css` for responsive V3 components, focus-visible states, and reduced-motion behavior.
+- Added `assets/js/v3.js` for discovery filtering, live local date display, and planner interactions.
+- Updated the existing calendar, hub directory, hub detail, countdown, activities, and Santa pages with V3 styling and navigation.
+- Kept the static HTML/CSS/JavaScript architecture and avoided adding client-side API keys or implying that demo-only services are live.
+- Image search results remain candidates until human review. Measured recipe drafts are not marked kitchen-tested without a real cook test. Lunar and other locally variable observances remain paused until source-backed verification.
+
+### Run and validate
+Open `index.html` or serve the repository directory with any static HTTP server. The site does not require a build step. GitHub Actions checks JavaScript syntax and local HTML references. Browser storage is used only by the optional planner and is specific to that browser/device.
