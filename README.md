@@ -1,4 +1,4 @@
-# CrowRules Holidays Hub — V3.0
+# CrowRules Holidays Hub — V3.1
 
 A fresh, static HTML/CSS/JavaScript foundation for the CrowRules Entertainment Holidays division.
 
@@ -78,3 +78,12 @@ Open `index.html` in a modern browser. No build step or framework is required.
 
 ### Run and validate
 Open `index.html` or serve the repository directory with any static HTTP server. The site does not require a build step. GitHub Actions checks JavaScript syntax and local HTML references. Browser storage is used only by the optional planner and is specific to that browser/device.
+
+
+## V3.1 — Seasonal Experience Studio
+- Added experiences.html with twelve adaptable seasonal experiences across spring, summer, autumn and winter.
+- Added season filters, expandable steps and accessibility adaptations, browser-local saved ideas, and a planner handoff carrying the selected idea.
+- Connected the experience studio from the homepage and activities page.
+- Expanded the photography review manifest schema and documented an intake, licensing, cultural review, accessibility and local image optimization workflow in docs/PHOTOGRAPHY-PRODUCTION.md.
+- Photography assets remain intentionally unpublished until provenance, licensing, cultural context, accessibility and optimization review are complete. The manifest is empty by design.
+- Extended the Chromium CI suite to exercise seasonal filters, saved ideas, planner handoff, date calculations, responsive navigation and planner task persistence.
