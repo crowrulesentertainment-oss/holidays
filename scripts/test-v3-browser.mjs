@@ -24,7 +24,7 @@ try {
   await page.locator('[data-season-filter="saved"]').click();
   assert.equal(await page.locator('.experience-card').count(),1,'saved ideas filter returns the saved experience');
   await page.locator('.experience-card .experience-actions a').click();
-  assert.match(page.url(),/planner.html\\?idea=/,'experience can be passed into the celebration planner');
+  assert.ok(page.url().includes('planner.html?idea='),'experience can be passed into the celebration planner');
   assert.match((await page.locator('[data-v3-planner-heading]').textContent()).trim(),/^Plan this idea:/,'planner is personalized to the selected experience');
   await page.goto('http://127.0.0.1:4173/holidays.html',{waitUntil:'networkidle'});
   await page.locator('#calendar-year-filter').selectOption('2027');
