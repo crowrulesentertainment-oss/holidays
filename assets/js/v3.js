@@ -37,13 +37,16 @@
 
   // A private-by-default celebration checklist. Data stays in this browser only.
   const form=$('[data-v3-planner-form]'),list=$('[data-v3-task-list]'),status=$('[data-v3-planner-status]');
-  const plannerParams=new URLSearchParams(window.location.search);\n  const plannerHoliday=(plannerParams.get('holiday')||'').trim().slice(0,100);\n  const plannerIdea=(plannerParams.get('idea')||'').trim().slice(0,100);
+  const plannerParams=new URLSearchParams(window.location.search);
+  const plannerHoliday=(plannerParams.get('holiday')||'').trim().slice(0,100);
+  const plannerIdea=(plannerParams.get('idea')||'').trim().slice(0,100);
   const plannerHeading=$('[data-v3-planner-heading]');
   const plannerTitle=form?.querySelector('[name="task-title"]');
-  if(plannerHoliday){
-    if(plannerHeading)plannerHeading.textContent='Plan for '+plannerHoliday;
-    if(plannerTitle)plannerTitle.placeholder='Add a task for '+plannerHoliday;
-    if(status)status.textContent='You’re planning for '+plannerHoliday+'. Add your own tasks below.';
+  if(plannerHoliday||plannerIdea){
+    const context=plannerHoliday||plannerIdea;
+    if(plannerHeading)plannerHeading.textContent=(plannerHoliday?'Plan for ':'Plan this idea: ')+context;
+    if(plannerTitle){plannerTitle.placeholder='Add a task for '+context;if(plannerIdea)plannerTitle.value='Plan: '+plannerIdea;}
+    if(status)status.textContent='You’re planning for '+context+'. Add your own tasks below.';
   }
   const key='crowrules-holidays-v3-planner';
   let tasks=[];
