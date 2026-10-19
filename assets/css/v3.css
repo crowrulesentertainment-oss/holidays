@@ -78,3 +78,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 @media(max-width:900px){.v3-hero{grid-template-columns:1fr;min-height:0}.v3-hero-panel{max-width:620px}.v3-hub-grid,.v3-feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.v3-planner-layout{grid-template-columns:1fr}.v3-section-heading{align-items:start;flex-direction:column}}
 @media(max-width:600px){.v3-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.v3-hub-grid,.v3-feature-grid{grid-template-columns:1fr}.v3-hero{padding-top:58px;padding-bottom:54px}.v3-hub-card{min-height:190px}.v3-section{padding-top:48px;padding-bottom:48px}.v3-page-hero{padding-top:50px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.v3-hub-card{transition:none}.v3-hub-card:hover{transform:none}}
+
+/* Compact desktop navigation for the expanded V3 information architecture */
+@media(max-width:1180px) and (min-width:901px){.site-header{gap:12px;padding-inline:20px}.nav{gap:8px}.nav a{font-size:10px}.brand{font-size:10px;letter-spacing:1px}.brand-mark{font-size:24px}.header-cta{padding:8px 10px;font-size:10px}}
