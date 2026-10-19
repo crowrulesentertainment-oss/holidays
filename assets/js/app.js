@@ -130,8 +130,8 @@
     if (feedback) feedback.textContent = 'Your letter is ready to download. Nothing has been sent or stored.';
     if(downloadLetter) downloadLetter.hidden = false;
   });
-})();
-  if (welcome) welcome.addEventListener('click', () => {
+
+if (welcome) welcome.addEventListener('click', () => {
     if (!('speechSynthesis' in window)) { alert('Speech playback is not supported in this browser.'); return; }
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance('Ho ho hello! Welcome to the North Pole. I am so glad you stopped by. What would you like to share today?');
@@ -146,3 +146,4 @@
     $$('.activity-filter').forEach(b => b.classList.toggle('active', b===button));
     $$('.activity-card[data-category]').forEach(card => card.hidden = button.dataset.activityFilter !== 'all' && card.dataset.category !== button.dataset.activityFilter);
   }));
+})();
