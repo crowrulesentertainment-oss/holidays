@@ -1,5 +1,38 @@
 {
-  "schemaVersion": 1,
-  "description": "Only manually reviewed featured images belong here. Empty by default; live Commons results remain unreviewed candidates.",
+  "schemaVersion": 2,
+  "description": "Production photography ledger. Images must not be displayed as editorially approved until every required review field is completed. Generated artwork and licensed photographs should have explicit provenance.",
+  "requiredReviewFields": [
+    "sourceUrl",
+    "creator",
+    "licenseName",
+    "licenseUrl",
+    "commercialUseAllowed",
+    "attributionText",
+    "culturalContextReviewer",
+    "altText",
+    "originalWidth",
+    "originalHeight",
+    "optimizedFormats",
+    "reviewedBy",
+    "reviewedAt"
+  ],
+  "imageRules": {
+    "storeLocally": true,
+    "preferredFormats": [
+      "avif",
+      "webp"
+    ],
+    "fallbackFormat": "jpg",
+    "responsiveWidths": [
+      480,
+      768,
+      1200,
+      1600
+    ],
+    "maxHeroBytes": 350000,
+    "maxCardBytes": 140000,
+    "stripLocationMetadata": true,
+    "doNotUseUnverifiedRemoteImages": true
+  },
   "items": []
 }
