@@ -117,7 +117,6 @@
   if (timer) setCountdown('Christmas Day',timer.dataset.target);
 
   const letter = $('#santa-letter');
-  const welcome = $('#santa-welcome');
   const downloadLetter = $('#download-letter');
   let preparedLetter = '';
   if (letter) letter.addEventListener('submit', event => {
@@ -126,18 +125,12 @@
     const text = ($('#letter-message')?.value || '').trim();
     const feedback = $('#letter-feedback');
     if (!text) { if(feedback) feedback.textContent = 'Add a little note before preparing your letter.'; return; }
-    preparedLetter = 'Dear Santa,\\n\\n' + (name ? 'My name is ' + name + '.\\n\\n' : '') + text + '\\n\\nWith holiday cheer,\\n' + (name || 'A friend');
+    preparedLetter = 'Dear Santa,\n\n' + (name ? 'My name is ' + name + '.\n\n' : '') + text + '\n\nWith holiday cheer,\n' + (name || 'A friend');
     if (feedback) feedback.textContent = 'Your letter is ready to download. Nothing has been sent or stored.';
     if(downloadLetter) downloadLetter.hidden = false;
   });
 
-if (welcome) welcome.addEventListener('click', () => {
-    if (!('speechSynthesis' in window)) { alert('Speech playback is not supported in this browser.'); return; }
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance('Ho ho hello! Welcome to the North Pole. I am so glad you stopped by. What would you like to share today?');
-    utterance.rate = 0.88; utterance.pitch = 0.9; window.speechSynthesis.speak(utterance);
-  });
-  if (downloadLetter) downloadLetter.addEventListener('click', () => {
+if (downloadLetter) downloadLetter.addEventListener('click', () => {
     if (!preparedLetter) return;
     const url = URL.createObjectURL(new Blob([preparedLetter], {type:'text/plain;charset=utf-8'}));
     const a = document.createElement('a'); a.href=url; a.download='my-letter-to-santa.txt'; a.click(); URL.revokeObjectURL(url);
