@@ -74,7 +74,7 @@
         const tag = document.createElement('span'); tag.className = 'holiday-tag'; tag.textContent = h.category || 'Observance';
         const title = document.createElement('h3'); title.textContent = h.name;
         const desc = document.createElement('p'); desc.textContent = h.description;
-        card.append(date,tag,title,desc); grid.append(card);
+        card.append(date,tag,title,desc); const hubLink=document.createElement('a'); hubLink.className='text-link'; hubLink.href='holiday.html?id='+encodeURIComponent(h.name.toLowerCase().replace(/[’']/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')); hubLink.textContent='Explore this holiday hub →'; card.append(hubLink); grid.append(card);
       });
     };
     search?.addEventListener('input', renderHolidays);
