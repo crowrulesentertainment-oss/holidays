@@ -1,0 +1,27 @@
+(() => {
+  'use strict';
+  const root = document.getElementById('hub-recipes');
+  if (!root) return;
+  const slug = new URLSearchParams(location.search).get('id');
+  const recipes = [
+    {slugs:['valentines-day'],title:'Strawberry Heart Toast',yield:'2 servings',time:'10 minutes',status:'Measured draft · kitchen test pending',ingredients:['2 slices sandwich bread','4 medium strawberries (about 60 g), hulled','4 tbsp (60 g) plain yogurt or cream cheese','1 tsp (5 mL) honey, optional'],steps:['Toast bread until golden; let it cool slightly.','Spread 2 tbsp yogurt or cream cheese on each slice.','Slice strawberries and arrange on top. Add honey if desired; serve immediately.'],notes:'A contemporary, adaptable snack idea—not a traditional dish. For children under 4, avoid honey and cut round foods into age-appropriate pieces.'},
+    {slugs:['independence-day'],title:'Red, White & Blue Fruit Cups',yield:'4 servings',time:'10 minutes',status:'Measured draft · kitchen test pending',ingredients:['1 cup (150 g) strawberries, hulled and diced','1 cup (150 g) blueberries, rinsed','1 medium banana (about 120 g peeled), sliced','2 tsp (10 mL) lemon juice','1 tsp (5 mL) maple syrup, optional'],steps:['Wash fruit under running water and dry with a clean towel.','Toss banana with lemon juice.','Divide strawberries, banana, and blueberries among 4 cups. Drizzle with maple syrup if desired.','Serve immediately, or cover and refrigerate for up to 24 hours.'],notes:'A modern seasonal snack, not a historical holiday recipe. For young children, quarter blueberries and cut fruit to a safe, age-appropriate size.'},
+    {slugs:['new-years-day'],title:'Quick Black-Eyed Pea & Greens Skillet',yield:'4 side-dish servings',time:'20 minutes',status:'Measured draft · kitchen test pending',ingredients:['1 tbsp (15 mL) olive oil','1 small yellow onion (about 110 g), diced','2 garlic cloves, minced','1 can (15 oz / 425 g) black-eyed peas, drained and rinsed','4 packed cups (120 g) chopped kale or collard greens','1/2 cup (120 mL) low-sodium vegetable broth or water','1/4 tsp salt, plus more to taste','1 tbsp (15 mL) lemon juice or cider vinegar'],steps:['Warm oil in a large skillet over medium heat. Add onion and cook 5 minutes, stirring.','Add garlic and cook 30 seconds. Add peas, greens, broth, and salt.','Cover and cook 6–8 minutes, stirring once, until greens are tender and steaming hot. Add 1–2 tbsp water if the pan dries out.','Remove from heat, stir in lemon juice or vinegar, taste, and adjust seasoning.'],notes:'Black-eyed peas and greens are associated with New Year food traditions in some Southern US families; practices differ. This is a modern, measured adaptation, not a universal tradition.'},
+    {slugs:['halloween'],title:'Pumpkin Oat Snack Muffins',yield:'12 muffins',time:'35–40 minutes',status:'Measured draft · kitchen test pending',ingredients:['1 cup (240 g) pumpkin purée (not pumpkin pie filling)','2 large eggs','1/3 cup (80 mL) neutral oil','1/2 cup (100 g) packed brown sugar','1 tsp vanilla extract','1 cup (125 g) all-purpose flour','1 cup (90 g) rolled oats, plus 1 tbsp for topping','1 tsp baking powder','1/2 tsp baking soda','1 tsp ground cinnamon','1/4 tsp fine salt'],steps:['Heat oven to 350°F (177°C). Line a 12-cup muffin tin.','Whisk pumpkin, eggs, oil, brown sugar, and vanilla until smooth.','In a second bowl, stir flour, oats, baking powder, baking soda, cinnamon, and salt.','Fold dry ingredients into wet ingredients just until no dry streaks remain. Divide evenly among 12 cups and sprinkle with the reserved oats.','Bake 18–23 minutes, until a toothpick inserted in the center comes out without wet batter. Cool in the tin 5 minutes, then move to a rack.'],notes:'Draft recipe with measured quantities; not yet physically kitchen-tested. Ovens and pumpkin purée moisture vary, so the listed bake time is a starting range and doneness must be checked.'}
+  ];
+  const recipe = recipes.find(item => item.slugs.includes(slug));
+  if (!recipe) return;
+  const node = (tag, cls, text) => { const e=document.createElement(tag); if(cls)e.className=cls; if(text!==undefined)e.textContent=text; return e; };
+  const card=node('article','hub-recipe-card print-focus');
+  card.append(node('div','hub-recipe-top','MEASURED RECIPE · '+recipe.yield));
+  card.append(node('h3','',recipe.title));
+  card.append(node('p','',recipe.time+' · '+recipe.status));
+  card.append(node('h4','','Ingredients'));
+  const list=node('ul',''); recipe.ingredients.forEach(x=>list.append(node('li','',x))); card.append(list);
+  card.append(node('h4','','Method'));
+  const steps=node('ol',''); recipe.steps.forEach(x=>steps.append(node('li','',x))); card.append(steps);
+  card.append(node('p','hub-recipe-disclaimer',recipe.notes));
+  card.append(node('p','hub-recipe-disclaimer','Editorial status: quantities and method are drafted, but this recipe is not labelled tested until a cook records an actual kitchen test, measured result, and any corrections. Check ingredient labels and allergies; refrigerate perishable food promptly.'));
+  const print=node('button','text-link hub-print-recipe','Print recipe ↗'); print.type='button'; print.addEventListener('click',()=>{card.classList.add('print-focus');window.print();}); card.append(print);
+  root.replaceChildren(card);
+})();
