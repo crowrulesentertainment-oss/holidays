@@ -34,3 +34,12 @@ Open `index.html` in a modern browser. No build step or framework is required.
 - Added holiday region filters, category labels, and activity category filters.
 - Santa's Office has a browser speech-synthesis welcome demo and downloadable local letter preview. It is not live AI voice chat or a talking avatar.
 - Static HTML/CSS/JavaScript only; no server-side message storage or secrets added.
+
+
+## Phase 3 — launch foundations
+- Added an accessible Santa text-chat interface with optional browser microphone input and speech playback.
+- The Santa front end intentionally does not transmit messages unless a deployment config supplies `window.CROWRULES_SANTA_API_URL`. Live AI, photorealistic video, and synchronized lip tracking are not active in this repository.
+- Added a secure-service integration contract and a holiday-data editorial policy.
+- Removed externally hosted Unsplash photo dependencies from CSS. Seasonal visuals now use local CSS treatments until approved, optimized image files are added. Google Fonts import was removed so typography uses local system stacks.
+- Added GitHub Actions checks for JavaScript syntax and broken local HTML references.
+- The checks run on GitHub Actions after a push; inspect the Actions tab for the result. No live-site browser test or deployment verification is implied by a successful commit.
