@@ -20,6 +20,12 @@ jobs:
               owner: context.repo.owner, repo: context.repo.repo,
               state: 'open', per_page: 100
             });
+            try {
+              await github.rest.issues.getLabel({ owner: context.repo.owner, repo: context.repo.repo, name: 'date-review' });
+            } catch (error) {
+              if (error.status !== 404) throw error;
+              await github.rest.issues.createLabel({ owner: context.repo.owner, repo: context.repo.repo, name: 'date-review', color: 'd4a72c', description: 'Human verification required for holiday dates' });
+            }
             if (existing.data.some(issue => issue.title === title && issue.labels.some(label => label.name === 'date-review'))) {
               core.info('An open date-review issue already exists; not duplicating it.');
               return;
