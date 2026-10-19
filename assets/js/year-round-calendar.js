@@ -60,6 +60,10 @@
       ['New Year’s Eve',12,31,'global','New Year','Reflect on the year and welcome what comes next.']
     ];
     fixed.forEach(([name,month,day,region,category,description]) => add(name, localDate(year,month,day), region, category, description, 'Fixed annual date'));
+    const newYearObserved = observed(year,1,1);
+    if (iso(newYearObserved) !== iso(localDate(year,1,1))) {
+      add('New Year’s Day ' + year + ' (federal observed date)',newYearObserved,'US','US federal / civic','Federal employee observed date when January 1 falls on a weekend.','U.S. Office of Personnel Management');
+    }
     const us = [
       ['Martin Luther King Jr. Day',localDate(year,1,nthWeekday(year,1,1,3))],
       ['Washington’s Birthday (Presidents’ Day)',localDate(year,2,nthWeekday(year,2,1,3))],
