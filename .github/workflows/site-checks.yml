@@ -18,7 +18,7 @@ jobs:
       - name: Check JavaScript syntax
         run: |
           node --check assets/js/app.js
-          node --check assets/js/v3.js
+          node --check assets/js/v3.js\n          node --check assets/js/seasonal-experiences.js
           node --check assets/js/year-round-calendar.js
           node --check assets/js/santa-chat.js
           node --check server/index.mjs
