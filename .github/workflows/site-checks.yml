@@ -23,6 +23,8 @@ jobs:
           node --check assets/js/santa-chat.js
           node --check server/index.mjs
           node --check scripts/check-site.mjs
+          node --check scripts/serve-site.mjs
+          node --check scripts/test-v3-browser.mjs
       - name: Check local HTML references
         run: node scripts/check-site.mjs
       - name: Install Chromium browser test dependency
