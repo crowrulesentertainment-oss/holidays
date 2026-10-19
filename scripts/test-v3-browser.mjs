@@ -15,6 +15,13 @@ try {
   await page.locator('[data-v3-hub-grid] .v3-hub-card').first().waitFor();
   const visibleCategory = (await page.locator('[data-v3-hub-grid] .v3-card-meta span').first().textContent()).trim().toLowerCase();
   assert.equal(visibleCategory,categoryValue,'category filter matches a real dataset category');
+  await page.goto('http://127.0.0.1:4173/holidays.html',{waitUntil:'networkidle'});
+  await page.locator('#calendar-year-filter').selectOption('2027');
+  await page.locator('#holiday-search').fill('Thanksgiving Day');
+  await page.locator('#holiday-grid .holiday-card').first().waitFor();
+  assert.match(await page.locator('#holiday-grid .holiday-card').first().textContent(),/November 25, 2027/,'year-round calendar computes Thanksgiving 2027');
+  await page.locator('#holiday-search').fill('Easter Sunday');
+  assert.match(await page.locator('#holiday-grid .holiday-card').first().textContent(),/March 28, 2027/,'year-round calendar computes Western Easter 2027');
   await page.setViewportSize({width:390,height:844});
   await page.goto('http://127.0.0.1:4173/',{waitUntil:'networkidle'});
   const width = await page.evaluate(() => document.documentElement.scrollWidth);
