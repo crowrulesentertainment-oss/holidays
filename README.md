@@ -51,3 +51,10 @@ Open `index.html` in a modern browser. No build step or framework is required.
 - Added a live-video launch panel to Santa's Office. It remains safely unconfigured until the public endpoint is set in `assets/js/santa-config.js`.
 - Activation requires a Tavus persona and licensed/consented Santa replica, backend deployment, server environment variables, public endpoint configuration, and testing.
 - Live AI/video is not active from the commit alone; provider credentials, persona/replica IDs, deployment, and validation are required. Review provider pricing and privacy/retention controls before public launch.
+
+
+## Holiday hubs expansion
+- Added a searchable directory of 46 curated holiday hubs covering seasonal, family, civic, heritage, religious, remembrance, and international observances.
+- Added a reusable holiday detail page (holiday.html with a holiday ID query parameter) for each hub, with meaning, traditions, activities, food inspiration, seasonal media ideas, and links to keep exploring.
+- Added search, category and month filters; calendar cards link into a dedicated hub where a matching hub exists.
+- Dates and traditions are curated starting points; lunar, religious, and region-specific observances require local verification before publishing definitive event details.

@@ -2,7 +2,8 @@
   'use strict';
   const hubs=window.CROWRULES_HOLIDAY_HUBS||[];
   const slug=new URLSearchParams(window.location.search).get('id');
-  const hub=hubs.find(item=>item.slug===slug);
+  const aliases={'christmas-day':'christmas','easter-sunday-western':'easter','mothers-day-us':'mothers-day','memorial-day-us':'memorial-day','veterans-day-us':'veterans-day','ramadan-begins-estimated':'ramadan','holi-date-may-vary':'holi','eid-al-fitr-estimated':'eid-al-fitr','eid-al-adha-estimated':'eid-al-adha','diwali-estimated':'diwali','hanukkah-begins-at-sundown':'hanukkah','rosh-hashanah-begins-at-sundown':'rosh-hashanah','yom-kippur-begins-at-sundown':'yom-kippur','passover-begins-at-sundown':'passover','kwanzaa-begins':'kwanzaa','new-years-day-2027':'new-years-day'};
+  const hub=hubs.find(item=>item.slug===(aliases[slug]||slug));
   const byId=id=>document.getElementById(id);
   if(!hub){
     byId('holiday-hub-title').textContent='Find your holiday.';
