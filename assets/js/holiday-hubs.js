@@ -67,6 +67,17 @@
     "media": "A respectful explainer on reflection, charity, and community traditions."
   },
   {
+    "slug": "eid-al-fitr",
+    "name": "Eid al-Fitr",
+    "date": "2026-03-20",
+    "category": "Religious",
+    "region": "Muslim communities; estimated date, local confirmation needed",
+    "description": "A major Islamic holiday marking the end of Ramadan, celebrated with prayer, generosity, and community; the date can vary by lunar observation.",
+    "traditions": "Learn from trusted Muslim community sources, share good wishes respectfully, and support charitable giving where appropriate.",
+    "food": "Eid dishes and sweets vary widely by country, family, and local custom.",
+    "media": "A respectful community-led introduction to Eid al-Fitr and the end of Ramadan."
+  },
+  {
     "slug": "st-patricks-day",
     "name": "St. Patrick’s Day",
     "date": "2026-03-17",
