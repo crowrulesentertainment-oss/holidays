@@ -8,6 +8,15 @@
   const dateOut=$('[data-v3-today]'); if(dateOut)dateOut.textContent=new Intl.DateTimeFormat(undefined,{weekday:'long',month:'long',day:'numeric'}).format(new Date());
   const grid=$('[data-v3-hub-grid]'), search=$('[data-v3-search]'), category=$('[data-v3-category]');
   const safeText=v=>String(v??'');
+  // Build filters from the actual dataset so categories never silently mismatch.
+  if(category&&hubs.length){
+    const selected=category.value||'all';
+    const categories=[...new Set(hubs.map(h=>safeText(h.category).trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+    category.replaceChildren();
+    const all=document.createElement('option');all.value='all';all.textContent='All categories';category.append(all);
+    categories.forEach(label=>{const option=document.createElement('option');option.value=label.toLowerCase();option.textContent=label;category.append(option);});
+    category.value=categories.some(label=>label.toLowerCase()===selected)?selected:'all';
+  }
   function renderHubs(){
     if(!grid)return;
     const term=(search?.value||'').trim().toLowerCase(),cat=category?.value||'all';
