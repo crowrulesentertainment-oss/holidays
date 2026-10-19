@@ -26,3 +26,11 @@ Open `index.html` in a modern browser. No build step or framework is required.
 3. Integrate a secure backend for submissions and moderation if needed.
 4. Implement the talking-Santa experience through a dedicated service, with explicit microphone permission and clear privacy disclosures.
 5. Add automated accessibility and link checks to CI.
+
+
+## Phase 2 cinematic upgrade
+- Added seasonal photo-led layouts and seasonal navigation panels using Unsplash image URLs. Confirm each image's current license/attribution terms before commercial promotion; use approved local copies for production.
+- Expanded the holiday list with selected cultural and religious observances. Dates marked estimated or variable must be verified against local calendars.
+- Added holiday region filters, category labels, and activity category filters.
+- Santa's Office has a browser speech-synthesis welcome demo and downloadable local letter preview. It is not live AI voice chat or a talking avatar.
+- Static HTML/CSS/JavaScript only; no server-side message storage or secrets added.
