@@ -1,0 +1,47 @@
+import assert from 'node:assert/strict';
+import { chromium } from 'playwright';
+const browser = await chromium.launch({headless:true});
+const errors = [];
+try {
+  const context = await browser.newContext({viewport:{width:1440,height:900}});
+  const page = await context.newPage();
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('http://127.0.0.1:4173/',{waitUntil:'networkidle'});
+  await page.locator('[data-v3-hub-grid] .v3-hub-card').first().waitFor();
+  assert.equal(await page.locator('[data-v3-hub-grid] .v3-hub-card').count(),12,'homepage renders up to 12 curated hub cards');
+  const category = page.locator('[data-v3-category]');
+  const categoryValue = await category.locator('option').nth(1).getAttribute('value');
+  await category.selectOption(categoryValue);
+  await page.locator('[data-v3-hub-grid] .v3-hub-card').first().waitFor();
+  const visibleCategory = (await page.locator('[data-v3-hub-grid] .v3-card-meta span').first().textContent()).trim().toLowerCase();
+  assert.equal(visibleCategory,categoryValue,'category filter matches a real dataset category');
+  await page.setViewportSize({width:390,height:844});
+  await page.goto('http://127.0.0.1:4173/',{waitUntil:'networkidle'});
+  const width = await page.evaluate(() => document.documentElement.scrollWidth);
+  assert.ok(width <= 390, 'mobile homepage has no horizontal overflow (scrollWidth='+width+')');
+  const toggle = page.locator('.menu-toggle');
+  await toggle.click();
+  assert.equal(await toggle.getAttribute('aria-expanded'),'true','mobile navigation announces open state');
+  assert.ok(await page.locator('.nav.open').isVisible(),'mobile navigation opens visibly');
+  await page.goto('http://127.0.0.1:4173/holiday.html?id=christmas',{waitUntil:'networkidle'});
+  const planLink = page.locator('#holiday-plan-link');
+  await planLink.waitFor();
+  assert.match(await planLink.getAttribute('href'),/planner\.html\?holiday=Christmas/,'holiday hub provides contextual planner link');
+  await planLink.click();
+  assert.equal((await page.locator('[data-v3-planner-heading]').textContent()).trim(),'Plan for Christmas','planner is personalized to selected holiday');
+  await page.locator('[name="task-title"]').fill('Browser test: prepare decorations');
+  await page.locator('[data-v3-planner-form] button[type="submit"]').click();
+  const task = page.locator('[data-v3-task-list] .v3-task').first();
+  await task.waitFor();
+  assert.match(await task.textContent(),/Browser test: prepare decorations/,'planner adds a task');
+  await task.locator('input[type="checkbox"]').check();
+  await page.reload({waitUntil:'networkidle'});
+  assert.match(await page.locator('[data-v3-task-list]').textContent(),/Browser test: prepare decorations/,'planner task persists after reload');
+  await page.locator('[data-v3-task-list] .v3-task button').first().click();
+  assert.equal(await page.locator('[data-v3-task-list] .v3-task').count(),0,'planner removes a task');
+  assert.deepEqual(errors,[],'no uncaught browser JavaScript errors');
+  console.log('PASS: desktop hub rendering/category filtering; mobile layout/navigation; holiday-to-planner flow; add/check/persist/remove task; no uncaught browser errors.');
+  await context.close();
+} finally {
+  await browser.close();
+}
