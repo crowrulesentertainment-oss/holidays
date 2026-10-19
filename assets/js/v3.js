@@ -37,6 +37,14 @@
 
   // A private-by-default celebration checklist. Data stays in this browser only.
   const form=$('[data-v3-planner-form]'),list=$('[data-v3-task-list]'),status=$('[data-v3-planner-status]');
+  const plannerHoliday=(new URLSearchParams(window.location.search).get('holiday')||'').trim().slice(0,100);
+  const plannerHeading=$('[data-v3-planner-heading]');
+  const plannerTitle=form?.querySelector('[name="task-title"]');
+  if(plannerHoliday){
+    if(plannerHeading)plannerHeading.textContent='Plan for '+plannerHoliday;
+    if(plannerTitle)plannerTitle.placeholder='Add a task for '+plannerHoliday;
+    if(status)status.textContent='You’re planning for '+plannerHoliday+'. Add your own tasks below.';
+  }
   const key='crowrules-holidays-v3-planner';
   let tasks=[];
   try{tasks=JSON.parse(localStorage.getItem(key)||'[]');if(!Array.isArray(tasks))tasks=[];}catch{tasks=[];}
