@@ -54,7 +54,11 @@ Open `index.html` in a modern browser. No build step or framework is required.
 
 
 ## Holiday hubs expansion
-- Added a searchable directory of 46 curated holiday hubs covering seasonal, family, civic, heritage, religious, remembrance, and international observances.
+- Added a searchable directory of 47 curated holiday hubs covering seasonal, family, civic, heritage, religious, remembrance, and international observances.
 - Added a reusable holiday detail page (holiday.html with a holiday ID query parameter) for each hub, with meaning, traditions, activities, food inspiration, seasonal media ideas, and links to keep exploring.
 - Added search, category and month filters; calendar cards link into a dedicated hub where a matching hub exists.
 - Dates and traditions are curated starting points; lunar, religious, and region-specific observances require local verification before publishing definitive event details.
+
+- Expanded each hub with a browser-local live countdown for fixed-date annual observances; movable and lunar observances deliberately show a verification notice instead of a potentially misleading timer.
+- Added themed CSS moodboard galleries, print-friendly activity sheets, adaptable recipe inspiration, YouTube search collections for music/video, and a holiday-specific event search link.
+- The media and event tools are discovery links, not a licensed media library or verified event feed. Confirm rights, dates, and organizer details before publishing or attending.

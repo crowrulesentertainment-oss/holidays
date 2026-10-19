@@ -89,3 +89,49 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .hub-promo{margin-top:32px;padding:24px;border:1px solid var(--line);background:#10251b;color:var(--muted);font-size:14px}.hub-promo a{color:var(--gold-light);font-weight:700}
 @media(max-width:900px){.holiday-hub-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hub-toolbar{grid-template-columns:auto minmax(0,1fr)}.hub-next{align-items:flex-start;flex-direction:column}}
 @media(max-width:600px){.holiday-hub-grid,.hub-content-grid{grid-template-columns:1fr}.hub-toolbar{grid-template-columns:1fr}.holiday-hub-hero{padding-top:76px}.hub-next-links{width:100%}}
+
+/* Holiday hub destination upgrades */
+.hub-extras-section{border-top:1px solid var(--line)}
+.hub-section-heading{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:24px}
+.hub-section-heading h2{font-size:clamp(30px,4vw,48px);margin-bottom:0}
+.hub-muted{max-width:420px;color:var(--muted);font-size:12px;line-height:1.8}
+.hub-countdown-panel{padding:clamp(20px,4vw,42px);border:1px solid rgba(216,179,106,.35);background:radial-gradient(ellipse at 80% 10%,rgba(216,179,106,.13),transparent 45%),#0b1b12}
+.hub-countdown-copy{display:flex;align-items:center;gap:10px;color:var(--gold-light);font-size:11px;letter-spacing:1.4px;text-transform:uppercase}
+.hub-live-dot{width:7px;height:7px;border-radius:50%;background:#80c99b;box-shadow:0 0 12px #80c99b}
+.hub-countdown-units{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:22px}
+.hub-countdown-units>div{padding:20px 12px;text-align:center;border:1px solid var(--line);background:#07130d}
+.hub-countdown-units strong{display:block;font-size:clamp(30px,5vw,54px);font-variant-numeric:tabular-nums;color:var(--ink)}
+.hub-countdown-units span{display:block;margin-top:5px;font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold)}
+.hub-countdown-verify{grid-column:1/-1;padding:22px;border:1px dashed rgba(216,179,106,.45);color:var(--muted);line-height:1.8}
+.hub-gallery-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.hub-gallery-tile{min-height:230px;padding:22px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;border:1px solid var(--line);position:relative;background:#10251b}
+.hub-gallery-tile:before,.hub-gallery-tile:after{content:"";position:absolute;border:1px solid #d8b36a55;border-radius:50%;pointer-events:none}
+.hub-gallery-tile:before{width:180px;height:180px;right:-50px;top:-45px;box-shadow:0 0 0 20px #d8b36a10,0 0 0 42px #d8b36a08}
+.hub-gallery-tile:after{width:80px;height:80px;right:20px;top:30px}
+.hub-gallery-tile>span{position:relative;z-index:1;color:var(--gold-light);font-size:38px}
+.hub-gallery-tile>div{position:relative;z-index:1}
+.hub-gallery-tile h3{font-size:21px;margin-bottom:4px}.hub-gallery-tile p{font-size:11px;color:var(--muted)}
+.hub-gallery-palette{background:linear-gradient(145deg,#34251b,#111c14)}.hub-gallery-details{background:linear-gradient(145deg,#1e3021,#101a13)}.hub-gallery-gathering{background:linear-gradient(145deg,#30241c,#161c15)}.hub-gallery-table{background:linear-gradient(145deg,#29251a,#101a13)}
+.hub-activity-grid,.hub-recipe-grid,.hub-media-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.hub-activity-card,.hub-recipe-card,.hub-media-card{border:1px solid var(--line);padding:24px;background:linear-gradient(145deg,#13281b,#0b1a11);min-width:0}
+.hub-activity-number,.hub-recipe-top{color:var(--gold);font-size:10px;letter-spacing:1.3px}
+.hub-activity-card h3,.hub-recipe-card h3,.hub-media-card h3{font-size:23px;margin:10px 0}
+.hub-activity-card p,.hub-recipe-card p,.hub-media-card p{font-size:12px;line-height:1.85;color:var(--muted)}
+.hub-check{display:flex;align-items:center;gap:8px;margin-top:18px;color:var(--gold-light);font-size:11px}.hub-check input{accent-color:#d8b36a}
+.hub-recipe-top{display:flex;justify-content:space-between;gap:10px}
+.hub-recipe-card p b{color:var(--ink)}
+.hub-print-recipe{border:0;background:none;padding:8px 0;color:var(--gold-light);cursor:pointer;font:inherit;font-size:12px}
+.hub-media-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.hub-media-card>span{display:grid;place-items:center;width:42px;height:42px;border:1px solid rgba(216,179,106,.4);color:var(--gold-light);border-radius:50%}
+.hub-media-card a{display:inline-block;margin-top:8px;color:var(--gold-light);font-size:12px}
+.hub-event-panel{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:clamp(22px,4vw,38px);border:1px solid var(--line);background:linear-gradient(120deg,#142b1c,#0b1a11)}
+.hub-event-panel h3{font-size:25px;margin-bottom:8px}.hub-event-panel p{max-width:600px;font-size:12px;line-height:1.8;color:var(--muted)}
+@media(max-width:850px){.hub-gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hub-media-grid{grid-template-columns:1fr}.hub-section-heading{align-items:flex-start;flex-direction:column}.hub-event-panel{align-items:flex-start;flex-direction:column}}
+@media(max-width:560px){.hub-countdown-units{gap:6px}.hub-countdown-units>div{padding:15px 5px}.hub-countdown-units strong{font-size:27px}.hub-gallery-grid,.hub-activity-grid,.hub-recipe-grid{grid-template-columns:1fr}}
+@media print{
+  body{background:white!important;color:#111!important}.site-header,.site-footer,.snow-layer,.hub-next,.hub-section-heading button,.hub-media-grid,.hub-event-panel,.hub-countdown-panel,.hub-gallery-grid{display:none!important}
+  .inner-page,.section{padding:12px!important;margin:0!important}.holiday-hub-hero{padding:16px!important;background:white!important;color:#111!important;border:0!important}.holiday-hub-hero h1{font-size:26px!important}
+  .hub-extras-section{border:0!important;padding:8px!important}.hub-section-heading{margin:0 0 8px!important}.hub-section-heading h2{font-size:20px!important}
+  .hub-activity-grid,.hub-recipe-grid{grid-template-columns:1fr 1fr!important}.hub-activity-card,.hub-recipe-card{break-inside:avoid;background:white!important;color:#111!important;border:1px solid #aaa!important;padding:12px!important}
+  .hub-activity-card p,.hub-recipe-card p,.hub-activity-card h3,.hub-recipe-card h3,.hub-check{color:#111!important}.hub-recipe-card:not(.print-focus){display:none!important}
+}
