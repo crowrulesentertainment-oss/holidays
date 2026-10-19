@@ -49,3 +49,12 @@ button:disabled{opacity:.55;cursor:not-allowed}
 @media(max-width:850px){.santa-chat-layout{grid-template-columns:1fr}.santa-portrait-panel{min-height:340px}.santa-chat-panel{min-height:480px}}
 @media(max-width:560px){.santa-portrait-panel{min-height:300px}.chat-compose-row{flex-direction:column}.chat-compose-row .button{width:100%}.chat-transcript{padding:14px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+.live-santa-section{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:32px;align-items:center;background:linear-gradient(135deg,#0b1b12,#142c1e);border-block:1px solid var(--line)}
+.live-santa-intro{max-width:520px}.live-santa-intro .muted{color:var(--muted);font-size:14px;line-height:1.85}.live-santa-intro .button{margin-top:10px}
+.live-santa-frame-wrap{min-width:0;border:1px solid rgba(216,179,106,.32);background:#050b07;box-shadow:0 22px 70px #0005;overflow:hidden}
+.live-santa-frame-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line)}
+#live-santa-frame{display:block;width:100%;height:520px;border:0;background:#08140f}
+#live-santa-frame[hidden],.live-santa-frame-wrap[hidden]{display:none}
+@media(max-width:850px){.live-santa-section{grid-template-columns:1fr}#live-santa-frame{height:460px}}
+@media(max-width:560px){#live-santa-frame{height:420px}.live-santa-frame-top{align-items:flex-start;flex-direction:column}}

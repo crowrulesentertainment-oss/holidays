@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: crowrules-santa-api
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: TAVUS_API_KEY
+        sync: false
+      - key: TAVUS_PERSONA_ID
+        sync: false
+      - key: TAVUS_REPLICA_ID
+        sync: false
+      - key: ALLOWED_ORIGIN
+        sync: false

@@ -39,3 +39,21 @@ Expected JSON response:
 3. Integrate provider session tokens/ephemeral credentials; never send long-lived API keys to the browser.
 4. Return text plus audio/viseme timing or a provider-hosted avatar stream.
 5. Test latency, interruptions, mobile browsers, accessibility, privacy and cost limits before public launch.
+
+ 
+## Live avatar adapter (Tavus CVI)
+The repository now includes an optional Node.js service in `server/index.mjs` that creates a Tavus CVI conversation server-side. The static GitHub Pages site never receives the Tavus API key.
+
+### Setup
+1. Create a Tavus account and configure a persona with a child-safe Santa system prompt. Select a licensed/consented Santa replica; do not clone a real person without permission.
+2. Deploy the repository's `render.yaml` blueprint to Render, or run the Node service on another HTTPS host.
+3. Set server secrets `TAVUS_API_KEY`, `TAVUS_PERSONA_ID`, and `TAVUS_REPLICA_ID`. Set `ALLOWED_ORIGIN` to the exact public website origin, not a wildcard. Multiple exact origins may be comma-separated.
+4. Set `window.CROWRULES_SANTA_SESSION_API_URL` in `assets/js/santa-config.js` to `https://YOUR-API-HOST/api/santa/session`. This is a public endpoint URL, not a secret.
+5. Check `/health`, start a session from Santa's Office, test microphone permission and end-session behavior, then review provider quotas and billing.
+
+### Security and launch gates
+- The server restricts browser origins, bounds JSON request size, does not log conversation content, and does not return provider error bodies.
+- CORS is not authentication and does not stop non-browser clients. Add rate limiting/bot protection, cost alerts, and a session concurrency cap before public launch.
+- Confirm current provider embed policies, plan limits, retention settings, and pricing before launch. A successful session requires real account credentials and valid persona/replica IDs.
+- The frontend embeds the provider-hosted conversation. The existing local text preview remains as a fallback.
+- Never put API keys, persona IDs, or replica IDs in client-side files. This app does not store transcripts.

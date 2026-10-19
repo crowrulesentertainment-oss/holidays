@@ -78,6 +78,52 @@
       setFeedback('The live Santa service could not be reached. Please try again later. Your message may have reached the configured service; check its logs before retrying.');
     }
   }
+
+  const startLive = $('#start-live-santa');
+  const endLive = $('#end-live-santa');
+  const liveStatus = $('#live-santa-status');
+  const liveWrap = $('#live-santa-frame-wrap');
+  const liveFrame = $('#live-santa-frame');
+  async function startLiveSanta() {
+    const endpoint = window.CROWRULES_SANTA_SESSION_API_URL;
+    if (!endpoint) {
+      if (liveStatus) liveStatus.textContent = 'Live video is not configured yet. Deploy the Santa API and set its public endpoint in assets/js/santa-config.js.';
+      return;
+    }
+    let url;
+    try { url = new URL(endpoint, window.location.href); }
+    catch { if (liveStatus) liveStatus.textContent = 'The Santa session endpoint is invalid.'; return; }
+    if (url.protocol !== 'https:' && url.hostname !== 'localhost' && url.hostname !== '127.0.0.1') {
+      if (liveStatus) liveStatus.textContent = 'For safety, the Santa session endpoint must use HTTPS.';
+      return;
+    }
+    if (startLive) { startLive.disabled = true; startLive.textContent = 'Connecting to the North Pole…'; }
+    if (liveStatus) liveStatus.textContent = 'Preparing a secure live session…';
+    try {
+      const response = await fetch(url.href, {method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},credentials:url.origin===window.location.origin?'same-origin':'omit',body:JSON.stringify({locale:navigator.language||'en-US'})});
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Santa service unavailable');
+      const conversationUrl = new URL(data.conversation_url);
+      if (conversationUrl.protocol !== 'https:') throw new Error('The live conversation URL was not secure.');
+      if (!liveFrame || !liveWrap) throw new Error('The live video frame is missing.');
+      liveFrame.src = conversationUrl.href;
+      liveFrame.hidden = false;
+      liveWrap.hidden = false;
+      if (liveStatus) liveStatus.textContent = 'Live session created. Allow microphone access in the video panel to begin speaking.';
+      liveWrap.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+    } catch {
+      if (liveStatus) liveStatus.textContent = 'Could not start a live Santa session. Check the service configuration and server logs, then try again.';
+    } finally {
+      if (startLive) { startLive.disabled = false; startLive.innerHTML = 'Start live Santa <span>→</span>'; }
+    }
+  }
+  startLive?.addEventListener('click', startLiveSanta);
+  endLive?.addEventListener('click', () => {
+    if (liveFrame) { liveFrame.src = 'about:blank'; liveFrame.hidden = true; }
+    if (liveWrap) liveWrap.hidden = true;
+    if (liveStatus) liveStatus.textContent = 'Live session closed in this page. Confirm the provider session has ended if your provider dashboard tracks active sessions.';
+  });
+
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     const message = input.value.trim();

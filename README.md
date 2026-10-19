@@ -43,3 +43,11 @@ Open `index.html` in a modern browser. No build step or framework is required.
 - Removed externally hosted Unsplash photo dependencies from CSS. Seasonal visuals now use local CSS treatments until approved, optimized image files are added. Google Fonts import was removed so typography uses local system stacks.
 - Added GitHub Actions checks for JavaScript syntax and broken local HTML references.
 - The checks run on GitHub Actions after a push; inspect the Actions tab for the result. No live-site browser test or deployment verification is implied by a successful commit.
+
+
+## Phase 4 — live Santa adapter
+- Added an optional Node 20 service at `server/index.mjs` that requests a Tavus CVI conversation from the server, never directly from browser code.
+- Added a Render Blueprint (`render.yaml`) with secret environment variables and an exact-origin CORS allowlist.
+- Added a live-video launch panel to Santa's Office. It remains safely unconfigured until the public endpoint is set in `assets/js/santa-config.js`.
+- Activation requires a Tavus persona and licensed/consented Santa replica, backend deployment, server environment variables, public endpoint configuration, and testing.
+- Live AI/video is not active from the commit alone; provider credentials, persona/replica IDs, deployment, and validation are required. Review provider pricing and privacy/retention controls before public launch.
