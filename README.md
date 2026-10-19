@@ -60,5 +60,7 @@ Open `index.html` in a modern browser. No build step or framework is required.
 - Dates and traditions are curated starting points; lunar, religious, and region-specific observances require local verification before publishing definitive event details.
 
 - Expanded each hub with a browser-local live countdown for fixed-date annual observances; movable and lunar observances deliberately show a verification notice instead of a potentially misleading timer.
-- Added themed CSS moodboard galleries, print-friendly activity sheets, adaptable recipe inspiration, YouTube search collections for music/video, and a holiday-specific event search link.
+- Replaced CSS-only moodboards with real Wikimedia Commons photographs fetched at runtime. The page only displays public-domain, CC0, or commercial-use-compatible CC BY/CC BY-SA images and shows creator, license, and source links; if no suitable photo is found, it shows a Commons search link instead.
+- Added holiday-specific activity prompts and recipe inspiration across the curated hub collection, including contextual notes for cultural and religious observances. Recipes remain inspiration, with exact quantities and cooking directions delegated to tested sources.
+- Added source links to Washington OSPI, OPM, the United Nations, and Washington State University for date checking. Fixed-weekday US holidays and Western Easter use explicit calendar rules; lunar, Hebrew-calendar, and local astronomical dates remain paused for local verification.
 - The media and event tools are discovery links, not a licensed media library or verified event feed. Confirm rights, dates, and organizer details before publishing or attending.
