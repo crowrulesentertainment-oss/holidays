@@ -68,7 +68,7 @@
     {label:'United Nations: headquarters holiday dates',url:'https://ask.un.org/faq?gid=181&qid=112514'},
     {label:'Washington State University: religious holiday calendar',url:'https://provost.wsu.edu/policies/religious-holidays/'}
   ];
-  const verifySlugs = new Set(['lunar-new-year','ramadan','eid-al-fitr','holi','nowruz','passover','eid-al-adha','rosh-hashanah','yom-kippur','diwali','hanukkah','summer-solstice','first-day-of-autumn','first-day-of-winter']);
+  const verifySlugs = new Set(['lunar-new-year','ramadan','eid-al-fitr','holi','nowruz','passover','eid-al-adha','rosh-hashanah','yom-kippur','diwali','hanukkah','summer-solstice','first-day-of-autumn','first-day-of-winter','mothers-day-international']);
   const variableDate = verifySlugs.has(hub.slug);
   const thirdWeekday = (year, month, weekday, nth) => { const d = new Date(year, month, 1); return new Date(year, month, 1 + ((weekday-d.getDay()+7)%7) + (nth-1)*7); };
   const lastWeekday = (year, month, weekday) => { const d = new Date(year, month+1, 0); return new Date(year, month+1, 0 - ((d.getDay()-weekday+7)%7)); };
@@ -93,6 +93,7 @@
   function renderCountdown() {
     if (variableDate) {
       status.textContent='Local date verification required';
+      byId('holiday-hub-date').textContent='Date varies · verify locally';
       note.textContent='This observance follows a lunar, religious, or astronomical calendar. The hub will not guess a definitive date; confirm with a trusted local community calendar before setting a countdown.';
       countdown.innerHTML='<div class="hub-countdown-verify" role="status">Countdown paused until the date is confirmed for your location and tradition.</div>';
       return;
@@ -109,6 +110,7 @@
     const ms=target-now, values=[[Math.floor(ms/86400000),'Days'],[Math.floor(ms%86400000/3600000),'Hours'],[Math.floor(ms%3600000/60000),'Minutes'],[Math.floor(ms%60000/1000),'Seconds']];
     countdown.innerHTML=values.map(([n,label])=>'<div><strong>'+n+'</strong><span>'+label+'</span></div>').join('');
     status.textContent='Annual date rule';
+    byId('holiday-hub-date').textContent=target.toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'});
     note.textContent='Estimated using the hub’s annual date rule in your browser’s local time zone. Check local listings for event times and observed dates.';
   }
   renderCountdown();
