@@ -15,6 +15,17 @@ try {
   await page.locator('[data-v3-hub-grid] .v3-hub-card').first().waitFor();
   const visibleCategory = (await page.locator('[data-v3-hub-grid] .v3-card-meta span').first().textContent()).trim().toLowerCase();
   assert.equal(visibleCategory,categoryValue,'category filter matches a real dataset category');
+  await page.goto('http://127.0.0.1:4173/experiences.html',{waitUntil:'networkidle'});
+  await page.locator('.experience-card').first().waitFor();
+  assert.equal(await page.locator('.experience-card').count(),3,'current-season filter shows three seasonal experiences');
+  await page.locator('[data-season-filter="autumn"]').click();
+  assert.equal(await page.locator('.experience-card').count(),3,'season filter shows the correct autumn experience set');
+  await page.locator('.experience-card .experience-save').first().click();
+  await page.locator('[data-season-filter="saved"]').click();
+  assert.equal(await page.locator('.experience-card').count(),1,'saved ideas filter returns the saved experience');
+  await page.locator('.experience-card .experience-actions a').click();
+  assert.match(page.url(),/planner.html\\?idea=/,'experience can be passed into the celebration planner');
+  assert.match((await page.locator('[data-v3-planner-heading]').textContent()).trim(),/^Plan this idea:/,'planner is personalized to the selected experience');
   await page.goto('http://127.0.0.1:4173/holidays.html',{waitUntil:'networkidle'});
   await page.locator('#calendar-year-filter').selectOption('2027');
   await page.locator('#holiday-search').fill('Thanksgiving Day');
@@ -47,7 +58,7 @@ try {
   await page.locator('[data-v3-task-list] .v3-task button').first().click();
   assert.equal(await page.locator('[data-v3-task-list] .v3-task').count(),0,'planner removes a task');
   assert.deepEqual(errors,[],'no uncaught browser JavaScript errors');
-  console.log('PASS: desktop hub rendering/category filtering; mobile layout/navigation; holiday-to-planner flow; add/check/persist/remove task; no uncaught browser errors.');
+  console.log('PASS: desktop hub/category filtering; seasonal experience filters/saving/planner handoff; calendar rules; mobile layout/navigation; holiday planner flow; add/check/persist/remove task; no uncaught browser errors.');
   await context.close();
 } finally {
   await browser.close();
