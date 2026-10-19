@@ -37,7 +37,7 @@
 
   // A private-by-default celebration checklist. Data stays in this browser only.
   const form=$('[data-v3-planner-form]'),list=$('[data-v3-task-list]'),status=$('[data-v3-planner-status]');
-  const plannerHoliday=(new URLSearchParams(window.location.search).get('holiday')||'').trim().slice(0,100);
+  const plannerParams=new URLSearchParams(window.location.search);\n  const plannerHoliday=(plannerParams.get('holiday')||'').trim().slice(0,100);\n  const plannerIdea=(plannerParams.get('idea')||'').trim().slice(0,100);
   const plannerHeading=$('[data-v3-planner-heading]');
   const plannerTitle=form?.querySelector('[name="task-title"]');
   if(plannerHoliday){
