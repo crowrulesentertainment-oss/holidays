@@ -154,9 +154,9 @@
   async function loadPhotos() {
     gallery.innerHTML='';
     const query=imageTerms[hub.slug] || (cleanName+' holiday celebration tradition');
-    const statusCard=el('p','hub-gallery-status','Searching Wikimedia Commons for real photographs with reusable licenses…');
+    const statusCard=el('p','hub-gallery-status','Searching Wikimedia Commons for candidate images with reusable licenses…');
     gallery.append(statusCard);
-    const api='https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrlimit=18&gsrsearch='+encodeURIComponent(query+' filetype:bitmap')+'&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=760&format=json&origin=*';
+    const api='https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrlimit=18&gsrsearch='+encodeURIComponent(query+' filetype:bitmap')+'&prop=imageinfo&iiprop=url|extmetadata|size|mime&iiurlwidth=960&format=json&origin=*';
     try {
       const response=await fetch(api);
       if(!response.ok) throw new Error('Commons request failed');
@@ -166,12 +166,15 @@
         const info=page.imageinfo&&page.imageinfo[0], meta=info&&info.extmetadata||{};
         const license=stripHtml(meta.LicenseShortName&&meta.LicenseShortName.value);
         const fileUrl=info&&(info.thumburl||info.url);
-        if(!info||!fileUrl||!fileUrl.startsWith('https://upload.wikimedia.org/')||!safeLicense(license)) return null;
+        const fileTitle=String(page.title||'').toLowerCase();
+        const unsuitable=/(logo|coat of arms|flag of|map of|poster|banner|diagram|chart|icon|clipart|vector|illustration|drawing|painting|screenshot|watermark|collage|template|symbol only)/i.test(fileTitle);
+        const mime=String(info&&info.mime||'').toLowerCase();
+        if(!info||!fileUrl||!fileUrl.startsWith('https://upload.wikimedia.org/')||!safeLicense(license)||!/^image\/(jpeg|png|webp)$/.test(mime)||Number(info.width||0)<900||Number(info.height||0)<600||unsuitable) return null;
         return {title:stripHtml(meta.ObjectName&&meta.ObjectName.value)||page.title.replace(/^File:/,''),creator:stripHtml(meta.Artist&&meta.Artist.value)||'Creator not listed',license,licenseUrl:meta.LicenseUrl&&meta.LicenseUrl.value,descriptionUrl:info.descriptionurl,thumb:fileUrl,original:info.url};
       }).filter(Boolean).slice(0,4);
       gallery.innerHTML='';
       if(!photos.length) {
-        gallery.append(el('p','hub-gallery-status','No clearly reusable photos were found for this search. Try the Commons collection directly; no unlicensed image has been substituted.'));
+        gallery.append(el('p','hub-gallery-status','No image passed the current license, format, size, and filename checks. These automated checks cannot verify cultural accuracy; no substitute has been added.'));
         const link=el('a','text-link','Search Wikimedia Commons for '+hub.name);
         link.href='https://commons.wikimedia.org/wiki/Special:MediaSearch?type=image&search='+encodeURIComponent(query);
         link.target='_blank'; link.rel='noopener noreferrer'; gallery.append(link); return;
@@ -179,16 +182,16 @@
       photos.forEach(photo=>{
         const figure=el('figure','hub-photo-card');
         const link=el('a','hub-photo-link'); link.href=photo.descriptionUrl; link.target='_blank'; link.rel='noopener noreferrer'; link.setAttribute('aria-label','Open original Wikimedia Commons file: '+photo.title);
-        const img=el('img','hub-photo-image'); img.src=photo.thumb; img.alt=hub.name+' photograph: '+photo.title; img.loading='lazy'; img.decoding='async'; link.append(img);
+        const img=el('img','hub-photo-image'); img.src=photo.thumb; img.alt=hub.name+' image candidate: '+photo.title; img.loading='lazy'; img.decoding='async'; img.addEventListener('error',()=>{figure.remove();}); img.addEventListener('load',()=>{if(img.naturalWidth<600||img.naturalHeight<400) figure.remove();}); link.append(img);
         const cap=el('figcaption','hub-photo-credit');
-        cap.append(el('strong','hub-photo-title',photo.title),el('span','hub-photo-creator','By '+photo.creator));
+        cap.append(el('strong','hub-photo-title',photo.title),el('span','hub-photo-creator','By '+photo.creator),el('span','hub-photo-source','Candidate only · verify cultural context before featuring'));
         const licenseLink=el('a','hub-photo-license',photo.license); licenseLink.href=photo.licenseUrl||photo.descriptionUrl; licenseLink.target='_blank'; licenseLink.rel='noopener noreferrer';
         cap.append(licenseLink,el('span','hub-photo-source','Wikimedia Commons'));
         figure.append(link,cap); gallery.append(figure);
       });
     } catch (error) {
       gallery.innerHTML='';
-      gallery.append(el('p','hub-gallery-status','Photo search is temporarily unavailable. No unverified image has been displayed.'));
+      gallery.append(el('p','hub-gallery-status','Photo search is temporarily unavailable. No image has been approved or substituted.'));
       const link=el('a','text-link','Open Wikimedia Commons search');
       link.href='https://commons.wikimedia.org/wiki/Special:MediaSearch?type=image&search='+encodeURIComponent(query);
       link.target='_blank'; link.rel='noopener noreferrer'; gallery.append(link);
