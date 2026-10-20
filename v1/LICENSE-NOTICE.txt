@@ -1,1 +1,0 @@
-CrowRules Entertainment Holiday Hub starter. Remote image/font URLs are referenced but not bundled. Review and replace all third-party assets according to their respective licenses before public or commercial deployment.
