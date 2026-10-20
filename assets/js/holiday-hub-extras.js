@@ -197,7 +197,7 @@
       link.target='_blank'; link.rel='noopener noreferrer'; gallery.append(link);
     }
   }
-  loadPhotos();
+  // Production photography is rendered only from the reviewed local manifest.\n  // The remote candidate-search function above is intentionally not invoked.
 
   const fallback = {activities:[['Tradition discovery','Learn about this observance from a trusted cultural, historical, or community source.'],['Make a personal keepsake','Create a card, journal page, or small craft that reflects what this day means to your household.']],recipe:['A family-selected dish','Choose ingredients familiar to the people gathering','Use a trusted tested recipe, check allergies, and credit the cultural or family source when known.']};
   const specific=content[hub.slug]||fallback;
