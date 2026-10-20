@@ -87,3 +87,11 @@ Open `index.html` or serve the repository directory with any static HTTP server.
 - Expanded the photography review manifest schema and documented an intake, licensing, cultural review, accessibility and local image optimization workflow in docs/PHOTOGRAPHY-PRODUCTION.md.
 - Photography assets remain intentionally unpublished until provenance, licensing, cultural context, accessibility and optimization review are complete. The manifest is empty by design.
 - Extended the Chromium CI suite to exercise seasonal filters, saved ideas, planner handoff, date calculations, responsive navigation and planner task persistence.
+
+
+## V3.2 — cinematic photography rollout
+- Reworked holiday detail heroes into responsive, photo-led editorial stages with a cinematic local fallback when no approved photo exists.
+- Added an accessible local gallery renderer that reads only approved items from the photo review manifest, uses AVIF/WebP/JPEG fallbacks and responsive srcsets, and displays creator/license credits.
+- Disabled runtime display of unreviewed Wikimedia search candidates; a Commons search link remains available as a research starting point, not as approved site imagery.
+- Added a Sharp-based local optimization script and editorial intake, rights, cultural-context, alt-text and performance review workflow.
+- The manifest remains empty until source photographs are actually reviewed and added. The implementation is ready, but no approved local photo library is claimed yet.
