@@ -42,6 +42,10 @@ try {
   assert.equal(await toggle.getAttribute('aria-expanded'),'true','mobile navigation announces open state');
   assert.ok(await page.locator('.nav.open').isVisible(),'mobile navigation opens visibly');
   await page.goto('http://127.0.0.1:4173/holiday.html?id=christmas',{waitUntil:'networkidle'});
+  await page.locator('#hub-gallery .holiday-gallery-note').waitFor();
+  assert.ok(await page.locator('#holiday-hub-hero.holiday-photo-stage').count(),'holiday detail page uses cinematic photo-led hero layout');
+  assert.equal(await page.locator('#hub-gallery img[src*="upload.wikimedia.org"]').count(),0,'unreviewed remote gallery images are never presented as approved');
+  assert.match(await page.locator('#hub-gallery').textContent(),/local gallery is being curated/,'empty photo manifest has an accessible editorial fallback');
   const planLink = page.locator('#holiday-plan-link');
   await planLink.waitFor();
   assert.match(await planLink.getAttribute('href'),/planner\.html\?holiday=Christmas/,'holiday hub provides contextual planner link');
