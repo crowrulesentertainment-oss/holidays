@@ -5,6 +5,7 @@
   const p=new URLSearchParams(location.search),aliases={'christmas-day':'christmas','easter-sunday-western':'easter','mothers-day-us':'mothers-day','memorial-day-us':'memorial-day','veterans-day-us':'veterans-day','ramadan-begins-estimated':'ramadan','holi-date-may-vary':'holi','eid-al-fitr-estimated':'eid-al-fitr','eid-al-adha-estimated':'eid-al-adha','diwali-estimated':'diwali','hanukkah-begins-at-sundown':'hanukkah','rosh-hashanah-begins-at-sundown':'rosh-hashanah','yom-kippur-begins-at-sundown':'yom-kippur','passover-begins-at-sundown':'passover','kwanzaa-begins':'kwanzaa','new-years-day-2027':'new-years-day'};
   const slug=aliases[p.get('id')]||p.get('id'),hub=(window.CROWRULES_HOLIDAY_HUBS||[]).find(h=>h.slug===slug);
   const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
+  const srcset=(item,format)=>{const variants=item.responsiveFiles?.[format]||[];return variants.length?variants.map(v=>v.file+' '+v.width+'w').join(', '):item.files?.[format]||'';};
   hero.classList.add('holiday-photo-stage');hero.querySelector('h1')?.parentElement?.classList.add('holiday-photo-copy');hero.querySelector('.hub-hero-meta')?.classList.add('holiday-photo-meta');
   const fallback=()=>{
     gallery.classList.add('holiday-gallery-approved');gallery.replaceChildren();
@@ -17,13 +18,13 @@
     const approved=(manifest.items||[]).filter(i=>i.status==='approved'&&i.holidaySlugs?.includes(slug)&&i.altText&&i.sourceUrl&&i.creator&&i.licenseName&&i.licenseUrl&&i.reviewedBy&&i.reviewedAt&&i.files?.avif&&i.files?.webp&&i.files?.jpg);
     if(!approved.length){fallback();return;}
     const first=approved[0],picture=document.createElement('picture');
-    for(const [type,src] of [['image/avif',first.files.avif],['image/webp',first.files.webp]]){const s=el('source');s.type=type;s.srcset=src;picture.append(s);}
+    for(const [type,src] of [['image/avif',first.files.avif],['image/webp',first.files.webp]]){const s=el('source');s.type=type;s.srcset=srcset(first,'avif')||src;picture.append(s);}
     const heroImg=el('img');heroImg.src=first.files.jpg;heroImg.alt=first.altText;heroImg.width=first.displayWidth||1600;heroImg.height=first.displayHeight||1000;heroImg.fetchPriority='high';heroImg.decoding='async';picture.append(heroImg);hero.prepend(picture);hero.classList.add('has-approved-photo');
     hero.querySelector('.holiday-photo-credit')?.remove();const credit=el('p','holiday-photo-credit','Photo: '+first.creator+' · '),license=el('a','',first.licenseName);license.href=first.licenseUrl;license.target='_blank';license.rel='noopener noreferrer';credit.append(license);hero.append(credit);
     gallery.classList.add('holiday-gallery-approved');gallery.replaceChildren();
     approved.forEach((item,index)=>{const fig=el('figure','hub-photo-card'),a=el('a','hub-photo-link');a.href=item.sourceUrl;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Open source and license details for '+item.title);
-      const pic=document.createElement('picture');for(const [type,src] of [['image/avif',item.files.avif],['image/webp',item.files.webp]]){const s=el('source');s.type=type;s.srcset=src;pic.append(s);}
-      const img=el('img','hub-photo-image');img.src=item.files.jpg;img.alt=item.altText;img.loading=index===0?'eager':'lazy';img.decoding='async';img.width=item.displayWidth||1200;img.height=item.displayHeight||800;pic.append(img);a.append(pic);
+      const pic=document.createElement('picture');for(const [type,format] of [['image/avif','avif'],['image/webp','webp']]){const s=el('source');s.type=type;s.srcset=srcset(item,format);if(s.srcset)pic.append(s);}
+      const img=el('img','hub-photo-image');img.src=item.files.jpg;img.srcset=srcset(item,'jpg');img.sizes='(max-width: 420px) 100vw, (max-width: 700px) 50vw, (max-width: 1100px) 33vw, 40vw';img.alt=item.altText;img.loading=index===0?'eager':'lazy';img.decoding='async';img.width=item.displayWidth||1200;img.height=item.displayHeight||800;pic.append(img);a.append(pic);
       const cap=el('figcaption','hub-photo-credit');cap.append(el('strong','holiday-photo-title',item.title),el('span','hub-photo-source','Photo: '+item.creator));const l=el('a','hub-photo-license',item.licenseName);l.href=item.licenseUrl;l.target='_blank';l.rel='noopener noreferrer';cap.append(l);fig.append(a,cap);gallery.append(fig);
     });
   }).catch(fallback);
