@@ -1,22 +1,29 @@
-# Seasonal photography production workflow
+# Cinematic holiday photography rollout
 
-This site currently has no approved local photo assets. Do not mark the photography phase complete or embed remote search results as if they were licensed and reviewed.
+The holiday detail page supports approved local photography, responsive gallery layouts, visible attribution, meaningful alt text and a no-photo fallback. The production manifest intentionally remains empty until a real source asset has passed review.
 
-## Intake checklist
-1. Choose a specific placement (homepage hero, seasonal experience, holiday hub, activity card) and write what the image needs to communicate.
-2. Prefer original CrowRules photography/commissioned art or a clearly licensed source. Save the source page, creator, exact license and license URL; do not rely on a search-result thumbnail.
-3. Check whether commercial reuse, cropping, conversion and redistribution are allowed. Record required attribution and any restrictions.
-4. For culturally specific imagery, ask a knowledgeable reviewer from the represented community to confirm context, clothing, symbols, ritual and caption. Do not infer cultural accuracy from automated metadata.
-5. Write useful alt text describing the image's relevant information, not keywords. Use empty alt text only for genuinely decorative imagery.
-6. Keep the original source asset in a private editorial workspace; publish only optimized derivatives and the completed metadata record.
+## Editorial intake
+1. Choose the holiday, placement and story the image should tell. Prefer CrowRules-owned/commissioned imagery or an asset whose exact license permits commercial reuse, cropping, conversion and redistribution.
+2. Save the original in the private editorial workspace. Record the source page, creator, license name and URL, attribution text, commercial-use permission and original dimensions.
+3. Have an editor review composition, accuracy, dignity and context. For culturally specific imagery, record a reviewer with relevant community knowledge; open licensing is not cultural approval.
+4. Write useful alt text. Do not use keyword stuffing or guess a creator, license or reviewer to satisfy validation.
+5. Set status to approved only after all required fields are present.
 
-## Optimization target
-- Generate AVIF and WebP variants at 480, 768, 1200 and 1600 pixels wide (preserve aspect ratio).
-- Keep card images under 140 KB and hero images under 350 KB when quality remains acceptable.
-- Use a picture element with AVIF, WebP, then JPEG fallback; include srcset, sizes, explicit dimensions and loading=lazy for below-the-fold imagery. Use fetchpriority=high only for the single above-the-fold hero.
-- Strip EXIF GPS and other unnecessary metadata before publishing.
-- Test crops at mobile and desktop breakpoints and check contrast behind any text overlays.
-- Commit derivative files under assets/images/ only after review and add each image to assets/data/photo-review-manifest.json.
+## Local optimization
+- Install the build-only dependency in a clean environment: npm install --no-save sharp
+- Place each reviewed original at editorial/photo-inbox/<originalFile> and run node scripts/optimize-approved-photos.mjs
+- The pipeline creates AVIF, WebP and JPEG fallbacks at 480, 768, 1200 and 1600 pixels under assets/images/holidays/<asset-id>/
+- Check file sizes and crops before commit. The pipeline re-encodes images rather than copying original metadata; review metadata stripping before publication.
+- Hero images use high fetch priority. Gallery images load lazily and declare intrinsic dimensions. Layout adapts from a desktop editorial mosaic to two columns on mobile and one column on narrow screens.
 
-## Publication gate
-The editorial manifest must identify provenance, license, attribution, review owner/date, alt text, original dimensions and optimized variants. An empty manifest means no images are cleared for production. A technical license field is not a substitute for legal or cultural review.
+## Manifest record contract
+Each approved item needs id, status: approved, holidaySlugs, title, originalFile, sourceUrl, creator, licenseName, licenseUrl, commercialUseAllowed: true, attributionText, culturalContextReviewer, altText, reviewedBy and reviewedAt. Generated fields include files with local avif, webp and jpg paths plus dimensions and responsive variant metadata.
+
+## Accessibility and performance QA
+- Check alt text, keyboard focus, contrast, attribution visibility and the no-photo fallback.
+- Test at 320, 390, 768, 1024 and 1440 CSS pixels and with reduced motion enabled.
+- Keep card variants under 140 KB and hero variants under 350 KB when quality remains acceptable.
+- Review LCP, CLS and transfer size on representative pages before rollout.
+
+## Honest launch status
+The page code and optimization pipeline are ready, but no cleared originals are committed yet. The gallery shows an accessible fallback until an editor adds licensed and culturally reviewed assets. Do not claim the photography rollout is fully populated until approved images and local derivatives are committed.
