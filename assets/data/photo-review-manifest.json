@@ -1,7 +1,12 @@
 {
-  "schemaVersion": 2,
-  "description": "Production photography ledger. Images must not be displayed as editorially approved until every required review field is completed. Generated artwork and licensed photographs should have explicit provenance.",
+  "schemaVersion": 3,
+  "description": "Publication ledger for local holiday photography. Only items with status approved and complete provenance, commercial-use permission, cultural-context review, accessibility text, and local derivatives may render.",
   "requiredReviewFields": [
+    "id",
+    "status",
+    "holidaySlugs",
+    "title",
+    "originalFile",
     "sourceUrl",
     "creator",
     "licenseName",
@@ -10,9 +15,6 @@
     "attributionText",
     "culturalContextReviewer",
     "altText",
-    "originalWidth",
-    "originalHeight",
-    "optimizedFormats",
     "reviewedBy",
     "reviewedAt"
   ],
@@ -32,7 +34,11 @@
     "maxHeroBytes": 350000,
     "maxCardBytes": 140000,
     "stripLocationMetadata": true,
-    "doNotUseUnverifiedRemoteImages": true
+    "doNotUseUnverifiedRemoteImages": true,
+    "heroMaxBytes": 350000,
+    "cardMaxBytes": 140000,
+    "requireAltText": true,
+    "requireVisibleAttribution": true
   },
   "items": []
 }
