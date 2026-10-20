@@ -1,8 +1,0 @@
-{
-  "name": "crowrules-santa-api",
-  "version": "1.0.0",
-  "private": true,
-  "type": "module",
-  "engines": {"node": ">=20"},
-  "scripts": {"start":"node server/index.mjs","check":"node --check server/index.mjs && node --check assets/js/santa-chat.js"}
-}
