@@ -18,8 +18,8 @@
     const approved=(manifest.items||[]).filter(i=>i.status==='approved'&&i.holidaySlugs?.includes(slug)&&i.altText&&i.sourceUrl&&i.creator&&i.licenseName&&i.licenseUrl&&i.reviewedBy&&i.reviewedAt&&i.files?.avif&&i.files?.webp&&i.files?.jpg);
     if(!approved.length){fallback();return;}
     const first=approved[0],picture=document.createElement('picture');
-    for(const [type,src] of [['image/avif',first.files.avif],['image/webp',first.files.webp]]){const s=el('source');s.type=type;s.srcset=srcset(first,'avif')||src;picture.append(s);}
-    const heroImg=el('img');heroImg.src=first.files.jpg;heroImg.alt=first.altText;heroImg.width=first.displayWidth||1600;heroImg.height=first.displayHeight||1000;heroImg.fetchPriority='high';heroImg.decoding='async';picture.append(heroImg);hero.prepend(picture);hero.classList.add('has-approved-photo');
+    for(const [type,format] of [['image/avif','avif'],['image/webp','webp']]){const s=el('source');s.type=type;s.srcset=srcset(first,format);if(s.srcset)picture.append(s);}
+    const heroImg=el('img');heroImg.src=first.files.jpg;heroImg.srcset=srcset(first,'jpg');heroImg.sizes='100vw';heroImg.alt=first.altText;heroImg.width=first.displayWidth||1600;heroImg.height=first.displayHeight||1000;heroImg.fetchPriority='high';heroImg.decoding='async';picture.append(heroImg);hero.prepend(picture);hero.classList.add('has-approved-photo');
     hero.querySelector('.holiday-photo-credit')?.remove();const credit=el('p','holiday-photo-credit','Photo: '+first.creator+' · '),license=el('a','',first.licenseName);license.href=first.licenseUrl;license.target='_blank';license.rel='noopener noreferrer';credit.append(license);hero.append(credit);
     gallery.classList.add('holiday-gallery-approved');gallery.replaceChildren();
     approved.forEach((item,index)=>{const fig=el('figure','hub-photo-card'),a=el('a','hub-photo-link');a.href=item.sourceUrl;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Open source and license details for '+item.title);
