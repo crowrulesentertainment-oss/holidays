@@ -19,7 +19,9 @@ jobs:
         run: |
           node --check assets/js/app.js
           node --check assets/js/v3.js
-          node --check assets/js/seasonal-experiences.js\n          node --check assets/js/approved-holiday-gallery.js\n          node --check scripts/optimize-approved-photos.mjs
+          node --check assets/js/seasonal-experiences.js
+          node --check assets/js/approved-holiday-gallery.js
+          node --check scripts/optimize-approved-photos.mjs
           node --check assets/js/year-round-calendar.js
           node --check assets/js/santa-chat.js
           node --check server/index.mjs
