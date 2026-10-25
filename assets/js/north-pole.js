@@ -21,48 +21,6 @@
   }));
   updateWorkshopProgress();
 
-  // Workshop project lab: guided, low-cost activities saved locally.
-  const projectKey = "crowrules-holiday-northpole-projects-v1";
-  const projects = {
-    "kindness-card": {title:"Kindness card",level:"Easy · 10–15 minutes",materials:["Paper or a reused greeting card","Crayons, pencils, or markers","Optional stickers"],steps:["Fold the paper into a card.","Write one specific thing you appreciate about the recipient.","Decorate the front with a winter picture or favorite colors.","Give it in person or leave it somewhere appropriate for them to find."]},
-    "paper-snowflakes": {title:"Paper snowflakes",level:"Easy · 10 minutes",materials:["Plain paper","Child-safe scissors (adult help as needed)","Pencil (optional)"],steps:["Fold a square or trimmed sheet of paper into a triangle.","Fold again and draw a few simple shapes along the edges.","Carefully cut small shapes, keeping some folded edges connected.","Open slowly and display your unique snowflake."]},
-    "gift-tags": {title:"Handmade gift tags",level:"Easy · 15 minutes",materials:["Scrap paper or thin cardboard","Scissors","Markers","String or ribbon and a hole punch (optional)"],steps:["Cut the paper into small tag shapes.","Write the recipient's name or a short kind message.","Decorate with simple patterns or seasonal colors.","Add a hole and string if available; attach only when gift wrapping."]},
-    "recycled-ornament": {title:"Recycled-material ornament",level:"Easy · 20 minutes",materials:["Clean cardboard from packaging","Paper scraps","Glue or tape","Markers and string (optional)"],steps:["Cut cardboard into a simple star, circle, or tree shape.","Cover with paper scraps or draw a design.","Let any glue dry fully before handling.","Add a string loop if you have one, or use it as a tabletop decoration."]},
-    "cozy-cocoa-kit": {title:"Cozy cocoa kindness kit",level:"Easy · 10 minutes",materials:["A clean mug or small bag","Sealed cocoa packet or a favorite tea sachet","A handwritten note","Optional wrapped treat"],steps:["Choose a clean mug or small gift bag.","Add a sealed drink packet and any optional shelf-stable treat.","Write a warm note or an invitation to share a cozy break.","Give it to someone who would appreciate a little encouragement. Check allergies and household rules first."]}
-  };
-  const projectSelect = $("#project-select"), projectDetails = $("#project-details");
-  const projectFeedback = $("#project-feedback"), savedProjects = $("#saved-projects");
-  const readProjects = () => { try { const value = JSON.parse(localStorage.getItem(projectKey) || "[]"); return Array.isArray(value) ? value : []; } catch { return []; } };
-  const renderProject = () => {
-    if (!projectSelect || !projectDetails) return;
-    const project = projects[projectSelect.value] || projects["kindness-card"];
-    projectDetails.innerHTML = `<h4>${project.title}</h4><p class="np-project-level">${project.level}</p><h5>Materials</h5><ul>${project.materials.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul><h5>Steps</h5><ol>${project.steps.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ol>`;
-  };
-  const renderSavedProjects = () => {
-    if (!savedProjects) return;
-    const items = readProjects();
-    $("#project-count").textContent = `${items.length} saved`;
-    if (!items.length) { savedProjects.innerHTML = '<p class="np-small">No saved projects yet. Choose a project and save it above.</p>'; return; }
-    savedProjects.innerHTML = items.map(item => `<article class="np-saved-project"><div><strong>${escapeHtml(projects[item.key]?.title || "Workshop project")}</strong><small>${escapeHtml(item.savedAt || "")}</small></div><button type="button" class="np-button np-button-outline np-remove-project" data-id="${escapeHtml(item.id)}">Remove</button></article>`).join("");
-    savedProjects.querySelectorAll(".np-remove-project").forEach(button => button.addEventListener("click", () => {
-      try { localStorage.setItem(projectKey, JSON.stringify(readProjects().filter(item => item.id !== button.dataset.id))); renderSavedProjects(); projectFeedback.textContent = "Project removed from your list."; }
-      catch { projectFeedback.textContent = "Could not update your list. Check browser storage settings."; }
-    }));
-  };
-  projectSelect?.addEventListener("change", renderProject);
-  $("#save-project")?.addEventListener("click", () => {
-    try {
-      const items = readProjects(), key = projectSelect.value;
-      if (items.some(item => item.key === key)) { projectFeedback.textContent = "That project is already in your saved list."; return; }
-      items.unshift({id: window.crypto?.randomUUID ? window.crypto.randomUUID() : `project-${Date.now()}-${Math.random().toString(36).slice(2,8)}`,key,savedAt:new Date().toLocaleDateString(undefined,{year:"numeric",month:"short",day:"numeric"})});
-      localStorage.setItem(projectKey, JSON.stringify(items));
-      projectFeedback.textContent = `${projects[key].title} saved on this device.`;
-      renderSavedProjects();
-    } catch { projectFeedback.textContent = "Could not save this project. Your browser may have storage disabled."; }
-  });
-  renderProject();
-  renderSavedProjects();
-
   const favoriteReindeer = $("#favorite-reindeer");
   const favoriteFeedback = $("#favorite-feedback");
   try {
@@ -108,6 +66,48 @@
     }));
   };
   const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  // Workshop project lab: guided, low-cost activities saved locally.
+  const projectKey = "crowrules-holiday-northpole-projects-v1";
+  const projects = {
+    "kindness-card": {title:"Kindness card",level:"Easy · 10–15 minutes",materials:["Paper or a reused greeting card","Crayons, pencils, or markers","Optional stickers"],steps:["Fold the paper into a card.","Write one specific thing you appreciate about the recipient.","Decorate the front with a winter picture or favorite colors.","Give it in person or leave it somewhere appropriate for them to find."]},
+    "paper-snowflakes": {title:"Paper snowflakes",level:"Easy · 10 minutes",materials:["Plain paper","Child-safe scissors (adult help as needed)","Pencil (optional)"],steps:["Fold a square or trimmed sheet of paper into a triangle.","Fold again and draw a few simple shapes along the edges.","Carefully cut small shapes, keeping some folded edges connected.","Open slowly and display your unique snowflake."]},
+    "gift-tags": {title:"Handmade gift tags",level:"Easy · 15 minutes",materials:["Scrap paper or thin cardboard","Scissors","Markers","String or ribbon and a hole punch (optional)"],steps:["Cut the paper into small tag shapes.","Write the recipient's name or a short kind message.","Decorate with simple patterns or seasonal colors.","Add a hole and string if available; attach only when gift wrapping."]},
+    "recycled-ornament": {title:"Recycled-material ornament",level:"Easy · 20 minutes",materials:["Clean cardboard from packaging","Paper scraps","Glue or tape","Markers and string (optional)"],steps:["Cut cardboard into a simple star, circle, or tree shape.","Cover with paper scraps or draw a design.","Let any glue dry fully before handling.","Add a string loop if you have one, or use it as a tabletop decoration."]},
+    "cozy-cocoa-kit": {title:"Cozy cocoa kindness kit",level:"Easy · 10 minutes",materials:["A clean mug or small bag","Sealed cocoa packet or a favorite tea sachet","A handwritten note","Optional wrapped treat"],steps:["Choose a clean mug or small gift bag.","Add a sealed drink packet and any optional shelf-stable treat.","Write a warm note or an invitation to share a cozy break.","Give it to someone who would appreciate a little encouragement. Check allergies and household rules first."]}
+  };
+  const projectSelect = $("#project-select"), projectDetails = $("#project-details");
+  const projectFeedback = $("#project-feedback"), savedProjects = $("#saved-projects");
+  const readProjects = () => { try { const value = JSON.parse(localStorage.getItem(projectKey) || "[]"); return Array.isArray(value) ? value : []; } catch { return []; } };
+  const renderProject = () => {
+    if (!projectSelect || !projectDetails) return;
+    const project = projects[projectSelect.value] || projects["kindness-card"];
+    projectDetails.innerHTML = `<h4>${project.title}</h4><p class="np-project-level">${project.level}</p><h5>Materials</h5><ul>${project.materials.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul><h5>Steps</h5><ol>${project.steps.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ol>`;
+  };
+  const renderSavedProjects = () => {
+    if (!savedProjects) return;
+    const items = readProjects();
+    $("#project-count").textContent = `${items.length} saved`;
+    if (!items.length) { savedProjects.innerHTML = '<p class="np-small">No saved projects yet. Choose a project and save it above.</p>'; return; }
+    savedProjects.innerHTML = items.map(item => `<article class="np-saved-project"><div><strong>${escapeHtml(projects[item.key]?.title || "Workshop project")}</strong><small>${escapeHtml(item.savedAt || "")}</small></div><button type="button" class="np-button np-button-outline np-remove-project" data-id="${escapeHtml(item.id)}">Remove</button></article>`).join("");
+    savedProjects.querySelectorAll(".np-remove-project").forEach(button => button.addEventListener("click", () => {
+      try { localStorage.setItem(projectKey, JSON.stringify(readProjects().filter(item => item.id !== button.dataset.id))); renderSavedProjects(); projectFeedback.textContent = "Project removed from your list."; }
+      catch { projectFeedback.textContent = "Could not update your list. Check browser storage settings."; }
+    }));
+  };
+  projectSelect?.addEventListener("change", renderProject);
+  $("#save-project")?.addEventListener("click", () => {
+    try {
+      const items = readProjects(), key = projectSelect.value;
+      if (items.some(item => item.key === key)) { projectFeedback.textContent = "That project is already in your saved list."; return; }
+      items.unshift({id: window.crypto?.randomUUID ? window.crypto.randomUUID() : `project-${Date.now()}-${Math.random().toString(36).slice(2,8)}`,key,savedAt:new Date().toLocaleDateString(undefined,{year:"numeric",month:"short",day:"numeric"})});
+      localStorage.setItem(projectKey, JSON.stringify(items));
+      projectFeedback.textContent = `${projects[key].title} saved on this device.`;
+      renderSavedProjects();
+    } catch { projectFeedback.textContent = "Could not save this project. Your browser may have storage disabled."; }
+  });
+  renderProject();
+  renderSavedProjects();
+
   // Migrate the previous single-draft saved letter into the new keepsake collection once.
   try {
     const old = JSON.parse(localStorage.getItem(letterKey) || "null");
