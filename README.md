@@ -1,0 +1,34 @@
+# CrowRules Holiday Hub
+**One Company. One Universe. Every Holiday Has a Story.**
+
+A responsive, multi-page holiday discovery experience from CrowRules Entertainment. This first release establishes the shared design system and core pages before larger features are added.
+
+## Pages
+- `index.html` — cinematic homepage
+- `holidays.html` — searchable holiday directory
+- `holiday.html` — reusable holiday detail template (reads `?id=`)
+- `christmas.html` — year-round Christmas and North Pole hub
+- `nativity.html` — Christian Christmas and the Nativity
+- `tradition-builder.html` — create a personal tradition locally in the browser
+- `kitchen.html` — Mr. Claus's Kitchen recipe collection
+
+## Run locally
+Open `index.html` in a browser, or serve the repository with any static web server. No build step is required.
+
+## Design and implementation
+- Semantic HTML, responsive CSS, and vanilla JavaScript
+- Holiday data is centralized in `assets/js/holidays.js`
+- Search and tradition builder work client-side
+- External images are loaded from Unsplash URLs; replace with owned/licensed assets before production
+- Forms do not send personal data to a server in this starter release
+- No authentication, database, or private user submissions are enabled yet
+
+## Next milestones
+1. Expand and fact-check the holiday library with reputable sources.
+2. Add accessible date handling and regional calendar variations.
+3. Configure Supabase with Row Level Security before adding accounts or submissions.
+4. Add letter-to-Santa workflow, recipe detail pages, and a simulated 3D Santa tracker.
+5. Add automated accessibility, responsive, and link checks.
+
+## Important content note
+December 25 is celebrated by many Christians as the Nativity of Jesus Christ; the exact historical date of Jesus's birth is not known. Some Christian communities celebrate Christmas on a different civil-calendar date because of calendar traditions. The Nativity page distinguishes biblical accounts from later customs and from the fictional North Pole experience.
