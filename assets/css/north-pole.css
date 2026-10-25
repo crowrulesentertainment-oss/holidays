@@ -47,3 +47,24 @@
 .np-favorite{margin-top:18px;padding:16px;background:#f6f4ed;border:1px solid #e8e4d8}
 .np-favorite label{display:block;font-size:11px;font-weight:700;color:#4a5a53;margin-bottom:8px}
 .np-favorite select{width:100%;padding:12px;border:1px solid #deded4;background:#fff;color:#203631}
+
+/* Guided workshop project lab */
+.np-project-lab{margin-top:25px;padding:22px;background:#fbfaf6;border:1px solid #e4dfd1}
+.np-project-heading h3{font-family:var(--serif);font-size:25px;font-weight:500;color:#213a36;margin:6px 0}
+.np-project-heading p{font-size:12px;line-height:1.8;color:#687571}
+.np-project-lab>label{display:block;font-size:11px;font-weight:700;color:#4a5a53;margin:14px 0 7px}
+.np-project-lab select{width:100%;padding:12px;border:1px solid #deded4;background:#fff;color:#203631}
+.np-project-details{margin:15px 0;padding:18px;background:#f2f0e8;border:1px solid #e5e0d3}
+.np-project-details h4{font-family:var(--serif);font-size:24px;font-weight:500;color:#213a36;margin:0}
+.np-project-details .np-project-level{font-size:10px;color:#9a763b;font-weight:700}
+.np-project-details h5{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:#50665c;margin:17px 0 5px}
+.np-project-details ul,.np-project-details ol{padding-left:19px;margin:6px 0;color:#53645d;font-size:12px;line-height:1.9}
+.np-project-lab>.np-button{width:100%;margin-top:3px}
+.np-saved-projects{margin-top:22px;padding-top:17px;border-top:1px solid #e5e0d3}
+.np-saved-project-list{display:grid;gap:8px;margin-top:12px}
+.np-saved-project{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;background:#fff;border:1px solid #e8e4d8}
+.np-saved-project>div{display:grid;gap:4px}
+.np-saved-project strong{font-family:var(--serif);font-size:15px;font-weight:500;color:#29413b}
+.np-saved-project small{font-size:9px;color:#7d8881}
+.np-saved-project .np-button{min-height:34px;padding:7px 10px;font-size:10px}
+@media(max-width:760px){.np-project-lab{padding:16px}.np-saved-project{align-items:flex-start}.np-saved-project .np-button{flex-shrink:0}}
