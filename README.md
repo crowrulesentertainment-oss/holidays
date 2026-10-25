@@ -6,6 +6,7 @@ A responsive, multi-page holiday discovery experience from CrowRules Entertainme
 ## Pages
 - `index.html` — cinematic homepage
 - `holidays.html` — searchable holiday directory
+- `calendar.html` — month-by-month world holiday guide with a separate list of dates that change each year
 - `holiday.html` — reusable holiday detail template (reads `?id=`)
 - `christmas.html` — year-round Christmas and North Pole hub
 - `nativity.html` — Christian Christmas and the Nativity
@@ -29,6 +30,9 @@ Open `index.html` in a browser, or serve the repository with any static web serv
 3. Configure Supabase with Row Level Security before adding accounts or submissions.
 4. Add letter-to-Santa workflow, recipe detail pages, and a simulated 3D Santa tracker.
 5. Add automated accessibility, responsive, and link checks.
+
+## Calendar note
+The World Calendar is an introductory month-by-month guide, not a year-specific date calculator. Lunar, lunisolar, religious, and moveable observances are flagged as date-variable; users should confirm dates with trusted local or community sources.
 
 ## Important content note
 December 25 is celebrated by many Christians as the Nativity of Jesus Christ; the exact historical date of Jesus's birth is not known. Some Christian communities celebrate Christmas on a different civil-calendar date because of calendar traditions. The Nativity page distinguishes biblical accounts from later customs and from the fictional North Pole experience.
