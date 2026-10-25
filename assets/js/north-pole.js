@@ -2,6 +2,7 @@
   const $ = (s, root = document) => root.querySelector(s);
   const workshopKey = "crowrules-holiday-northpole-workshop-v1";
   const letterKey = "crowrules-holiday-northpole-letter-v1";
+  const favoriteKey = "crowrules-holiday-northpole-favorite-reindeer-v1";
   const keepsakeKey = "crowrules-holiday-northpole-keepsakes-v1";
   const boxes = [...document.querySelectorAll('#workshop-missions input[type="checkbox"]')];
   const workshopFeedback = $("#workshop-feedback");
@@ -19,6 +20,24 @@
     updateWorkshopProgress();
   }));
   updateWorkshopProgress();
+
+  const favoriteReindeer = $("#favorite-reindeer");
+  const favoriteFeedback = $("#favorite-feedback");
+  try {
+    const favorite = localStorage.getItem(favoriteKey);
+    if (favoriteReindeer && favorite) { favoriteReindeer.value = favorite; favoriteFeedback.textContent = `Your stable favorite is ${favorite}. Saved on this device.`; }
+  } catch {}
+  favoriteReindeer?.addEventListener("change", () => {
+    try {
+      if (favoriteReindeer.value) {
+        localStorage.setItem(favoriteKey, favoriteReindeer.value);
+        favoriteFeedback.textContent = `Your stable favorite is ${favoriteReindeer.value}. Saved on this device.`;
+      } else {
+        localStorage.removeItem(favoriteKey);
+        favoriteFeedback.textContent = "Choose a reindeer to save your stable favorite.";
+      }
+    } catch { favoriteFeedback.textContent = "Browser storage is unavailable, so your choice may not persist."; }
+  });
 
   const letterForm = $("#letter-form"), letterFeedback = $("#letter-feedback");
   const readKeepsakes = () => {
