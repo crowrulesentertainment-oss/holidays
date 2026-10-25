@@ -22,3 +22,8 @@
 .variable-holiday small{font-size:10px;color:#7a847b;margin-top:4px}
 .variable-date{font-size:11px;color:#97713a;text-align:right}
 @media(max-width:760px){.calendar-controls{grid-template-columns:1fr 1fr}.calendar-controls label{grid-column:1/-1}.calendar-controls select{grid-column:1/-1}.calendar-variable{grid-template-columns:1fr;padding:23px;gap:18px}.variable-holiday{grid-template-columns:1fr auto}.variable-holiday>span:last-child{display:none}}
+
+/* Tradition Builder upgrades */
+.saved-card-actions{display:flex;align-items:center;gap:18px;border-top:1px solid var(--line);margin-top:12px;padding-top:8px}
+.saved-card-actions .text-button{margin:0}
+.builder-form .text-button[hidden]{display:none}
