@@ -86,20 +86,33 @@
   const renderSavedProjects = () => {
     if (!savedProjects) return;
     const items = readProjects();
-    $("#project-count").textContent = `${items.length} saved`;
+    const completed = items.filter(item => item.completed).length;
+    $("#project-count").textContent = `${items.length} saved · ${completed} complete`;
     if (!items.length) { savedProjects.innerHTML = '<p class="np-small">No saved projects yet. Choose a project and save it above.</p>'; return; }
-    savedProjects.innerHTML = items.map(item => `<article class="np-saved-project"><div><strong>${escapeHtml(projects[item.key]?.title || "Workshop project")}</strong><small>${escapeHtml(item.savedAt || "")}</small></div><button type="button" class="np-button np-button-outline np-remove-project" data-id="${escapeHtml(item.id)}">Remove</button></article>`).join("");
+    savedProjects.innerHTML = items.map(item => `<article class="np-saved-project${item.completed ? " is-complete" : ""}"><div><strong>${escapeHtml(projects[item.key]?.title || "Workshop project")}</strong><small>${escapeHtml(item.savedAt || "")} · ${item.completed ? "Completed" : "Not completed yet"}</small></div><div class="np-saved-project-actions"><button type="button" class="np-button np-button-outline np-toggle-project" data-id="${escapeHtml(item.id)}" aria-pressed="${Boolean(item.completed)}">${item.completed ? "Mark unfinished" : "Mark complete"}</button><button type="button" class="np-button np-button-outline np-remove-project" data-id="${escapeHtml(item.id)}">Remove</button></div></article>`).join("");
+    savedProjects.querySelectorAll(".np-toggle-project").forEach(button => button.addEventListener("click", () => {
+      try {
+        const updated = readProjects().map(item => item.id === button.dataset.id ? {...item,completed:!item.completed} : item);
+        localStorage.setItem(projectKey, JSON.stringify(updated)); renderSavedProjects();
+        projectFeedback.textContent = updated.find(item => item.id === button.dataset.id)?.completed ? "Nice work! Project marked complete." : "Project marked as not completed.";
+      } catch { projectFeedback.textContent = "Could not update completion status. Check browser storage settings."; }
+    }));
     savedProjects.querySelectorAll(".np-remove-project").forEach(button => button.addEventListener("click", () => {
       try { localStorage.setItem(projectKey, JSON.stringify(readProjects().filter(item => item.id !== button.dataset.id))); renderSavedProjects(); projectFeedback.textContent = "Project removed from your list."; }
       catch { projectFeedback.textContent = "Could not update your list. Check browser storage settings."; }
     }));
   };
+  $("#print-project")?.addEventListener("click", () => {
+    document.body.classList.add("print-project-mode");
+    window.addEventListener("afterprint", () => document.body.classList.remove("print-project-mode"), {once:true});
+    window.print();
+  });
   projectSelect?.addEventListener("change", renderProject);
   $("#save-project")?.addEventListener("click", () => {
     try {
       const items = readProjects(), key = projectSelect.value;
       if (items.some(item => item.key === key)) { projectFeedback.textContent = "That project is already in your saved list."; return; }
-      items.unshift({id: window.crypto?.randomUUID ? window.crypto.randomUUID() : `project-${Date.now()}-${Math.random().toString(36).slice(2,8)}`,key,savedAt:new Date().toLocaleDateString(undefined,{year:"numeric",month:"short",day:"numeric"})});
+      items.unshift({id: window.crypto?.randomUUID ? window.crypto.randomUUID() : `project-${Date.now()}-${Math.random().toString(36).slice(2,8)}`,key,completed:false,savedAt:new Date().toLocaleDateString(undefined,{year:"numeric",month:"short",day:"numeric"})});
       localStorage.setItem(projectKey, JSON.stringify(items));
       projectFeedback.textContent = `${projects[key].title} saved on this device.`;
       renderSavedProjects();
