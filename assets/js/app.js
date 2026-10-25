@@ -21,16 +21,18 @@
   const directory = $("#holiday-directory");
   if (directory) {
     const search = $("#holiday-search"), category = $("#holiday-category"), count = $("#results-count"), noResults = $("#no-results");
+    const params = new URLSearchParams(location.search);
+    let seasonFilter = params.get("season") || "";
+    if (seasonFilter === "family") { category.value = "family"; seasonFilter = ""; }
     const render = () => {
       const term = search.value.trim().toLowerCase(), cat = category.value;
-      const filtered = data.filter(x => (cat === "all" || x.category === cat) && [x.name,x.summary,x.region,x.date,x.category,x.history].join(" ").toLowerCase().includes(term));
+      const filtered = data.filter(x => (cat === "all" || x.category === cat) && (!seasonFilter || x.season === seasonFilter) && [x.name,x.summary,x.region,x.date,x.category,x.history].join(" ").toLowerCase().includes(term));
       directory.innerHTML = filtered.map(card).join("");
       count.textContent = `${filtered.length} celebration${filtered.length === 1 ? "" : "s"} to explore`;
       noResults.hidden = filtered.length > 0;
     };
     search.addEventListener("input", render); category.addEventListener("change", render);
-    $("#clear-filters")?.addEventListener("click", () => { search.value = ""; category.value = "all"; render(); search.focus(); });
-    const params = new URLSearchParams(location.search);
+    $("#clear-filters")?.addEventListener("click", () => { search.value = ""; category.value = "all"; seasonFilter = ""; render(); search.focus(); });
     if (params.has("q")) search.value = params.get("q");
     render();
   }
