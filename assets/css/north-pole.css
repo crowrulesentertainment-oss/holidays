@@ -68,3 +68,20 @@
 .np-saved-project small{font-size:9px;color:#7d8881}
 .np-saved-project .np-button{min-height:34px;padding:7px 10px;font-size:10px}
 @media(max-width:760px){.np-project-lab{padding:16px}.np-saved-project{align-items:flex-start}.np-saved-project .np-button{flex-shrink:0}}
+
+/* Workshop project completion and print-friendly instructions */
+.np-project-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.np-project-actions .np-button{width:100%;margin-top:3px}
+.np-saved-project.is-complete{border-color:#9abca2;background:#f1f7ef}
+.np-saved-project.is-complete strong{text-decoration:line-through;text-decoration-color:#6e9b78}
+.np-saved-project-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:7px}
+.np-saved-project-actions .np-button{white-space:nowrap}
+@media(max-width:760px){.np-project-actions{grid-template-columns:1fr}.np-saved-project-actions{flex-direction:column}.np-saved-project-actions .np-button{width:100%}}
+@media print{
+  body.print-project-mode *{visibility:hidden!important}
+  body.print-project-mode #project-details,body.print-project-mode #project-details *{visibility:visible!important}
+  body.print-project-mode #project-details{position:absolute!important;left:0!important;top:0!important;width:100%!important;margin:0!important;padding:20px!important;border:0!important;background:white!important;color:black!important;box-shadow:none!important}
+  body.print-project-mode #project-details h4{font-size:24pt!important;color:black!important}
+  body.print-project-mode #project-details h5{font-size:12pt!important;color:black!important}
+  body.print-project-mode #project-details p,body.print-project-mode #project-details li{font-size:11pt!important;color:black!important}
+}
