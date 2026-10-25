@@ -42,3 +42,8 @@
 .np-itinerary li.is-current{color:#ffe7a9;border-color:#d3b36e;background:#233b3e}
 .np-itinerary li.is-current:before{background:#e7c783;box-shadow:0 0 0 4px #e7c78325}
 @media(max-width:760px){.np-saved-letter>div:first-child{align-items:flex-start;flex-direction:column;gap:2px}.np-letter-actions .np-button{flex:1}}
+
+/* Reindeer stable favorite selector */
+.np-favorite{margin-top:18px;padding:16px;background:#f6f4ed;border:1px solid #e8e4d8}
+.np-favorite label{display:block;font-size:11px;font-weight:700;color:#4a5a53;margin-bottom:8px}
+.np-favorite select{width:100%;padding:12px;border:1px solid #deded4;background:#fff;color:#203631}
