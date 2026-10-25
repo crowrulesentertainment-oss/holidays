@@ -58,22 +58,76 @@
   if (traditionForm) {
     const key = "crowrules-holiday-traditions-v1";
     const feedback = $("#tradition-feedback");
-    const read = () => { try { return JSON.parse(localStorage.getItem(key) || "[]"); } catch { return []; } };
+    const submitButton = traditionForm.querySelector('button[type="submit"]');
+    const cancelButton = document.createElement("button");
+    cancelButton.type = "button";
+    cancelButton.className = "text-button";
+    cancelButton.textContent = "Cancel editing";
+    cancelButton.hidden = true;
+    submitButton.insertAdjacentElement("afterend", cancelButton);
+    let editingId = null;
+    const read = () => {
+      try {
+        const entries = JSON.parse(localStorage.getItem(key) || "[]");
+        return Array.isArray(entries) ? entries.map((x,i) => ({...x,id:x.id || `legacy-${x.createdAt || "saved"}-${i}`,category:x.category || "other",date:x.date || ""})) : [];
+      } catch { return []; }
+    };
+    const write = entries => localStorage.setItem(key, JSON.stringify(entries));
+    const resetEditor = () => {
+      editingId = null;
+      traditionForm.reset();
+      submitButton.innerHTML = 'Save My Tradition <span>↗</span>';
+      cancelButton.hidden = true;
+      feedback.textContent = "";
+    };
     const renderSaved = () => {
       const target = $("#saved-traditions"), entries = read();
       if (!entries.length) { target.innerHTML = '<p class="muted">Your saved traditions will appear here. Start with the form above.</p>'; return; }
-      target.innerHTML = entries.map((x,i) => `<article class="saved-card"><span class="holiday-category">${escapeHtml(x.occasion)}</span><h3>${escapeHtml(x.name)}</h3><p>${escapeHtml(x.frequency)} · ${escapeHtml(x.people || "Just for me")}</p>${x.meaning ? `<p>${escapeHtml(x.meaning)}</p>` : ""}<button class="text-button remove-tradition" type="button" data-index="${i}">Remove</button></article>`).join("");
-      $$(".remove-tradition", target).forEach(btn => btn.addEventListener("click", () => { const list = read(); list.splice(Number(btn.dataset.index),1); localStorage.setItem(key, JSON.stringify(list)); renderSaved(); }));
+      target.innerHTML = entries.map(x => `<article class="saved-card"><span class="holiday-category">${escapeHtml(x.occasion)}</span><span class="holiday-category">${escapeHtml(String(x.category).replace(/-/g," "))}</span><h3>${escapeHtml(x.name)}</h3><p>${escapeHtml(x.frequency)} · ${escapeHtml(x.people || "Just for me")}</p>${x.date ? `<p><strong>Next planned:</strong> ${escapeHtml(x.date)}</p>` : ""}${x.meaning ? `<p>${escapeHtml(x.meaning)}</p>` : ""}<div class="saved-card-actions"><button class="text-button edit-tradition" type="button" data-id="${escapeHtml(x.id)}">Edit</button><button class="text-button remove-tradition" type="button" data-id="${escapeHtml(x.id)}">Remove</button></div></article>`).join("");
+      $(".edit-tradition", target).forEach(btn => btn.addEventListener("click", () => {
+        const entry = read().find(x => x.id === btn.dataset.id);
+        if (!entry) return;
+        editingId = entry.id;
+        ["name","occasion","people","frequency","meaning","category","date"].forEach(field => {
+          const input = traditionForm.elements.namedItem(field);
+          if (input) input.value = entry[field] || (field === "category" ? "other" : "");
+        });
+        submitButton.textContent = "Update My Tradition";
+        cancelButton.hidden = false;
+        feedback.textContent = "Editing a saved tradition. Save your changes when ready.";
+        traditionForm.scrollIntoView({behavior:"smooth",block:"start"});
+        traditionForm.elements.namedItem("name")?.focus();
+      }));
+      $(".remove-tradition", target).forEach(btn => btn.addEventListener("click", () => {
+        try {
+          write(read().filter(x => x.id !== btn.dataset.id));
+          if (editingId === btn.dataset.id) resetEditor();
+          renderSaved();
+          feedback.textContent = "Tradition removed from this browser.";
+        } catch { feedback.textContent = "Could not update browser storage. Check storage settings and try again."; }
+      }));
     };
+    cancelButton.addEventListener("click", resetEditor);
     traditionForm.addEventListener("submit", event => {
       event.preventDefault();
       const form = new FormData(traditionForm);
-      const entry = {name:String(form.get("name")||"").trim(),occasion:String(form.get("occasion")||""),people:String(form.get("people")||"").trim(),frequency:String(form.get("frequency")||""),meaning:String(form.get("meaning")||"").trim(),createdAt:new Date().toISOString()};
+      const entry = {id:editingId || (window.crypto?.randomUUID ? window.crypto.randomUUID() : `tradition-${Date.now()}`),name:String(form.get("name")||"").trim(),occasion:String(form.get("occasion")||""),people:String(form.get("people")||"").trim(),frequency:String(form.get("frequency")||""),category:String(form.get("category")||"other"),date:String(form.get("date")||""),meaning:String(form.get("meaning")||"").trim(),createdAt:new Date().toISOString()};
       if (!entry.name) { feedback.textContent = "Please give your tradition a name."; return; }
-      try { const list = read(); list.unshift(entry); localStorage.setItem(key, JSON.stringify(list)); feedback.textContent = "Your tradition is saved in this browser."; traditionForm.reset(); renderSaved(); }
-      catch { feedback.textContent = "This browser could not save the tradition. Check storage settings and try again."; }
+      try {
+        const list = read(), existingIndex = list.findIndex(x => x.id === editingId);
+        if (existingIndex >= 0) list[existingIndex] = entry; else list.unshift(entry);
+        write(list);
+        feedback.textContent = editingId ? "Your tradition has been updated in this browser." : "Your tradition is saved in this browser.";
+        resetEditor();
+        renderSaved();
+      } catch { feedback.textContent = "This browser could not save the tradition. Check storage settings and try again."; }
     });
-    $("#clear-traditions")?.addEventListener("click", () => { if (confirm("Clear all traditions saved in this browser? This cannot be undone.")) { localStorage.removeItem(key); renderSaved(); feedback.textContent = "Saved traditions cleared from this browser."; } });
+    $("#clear-traditions")?.addEventListener("click", () => {
+      if (confirm("Clear all traditions saved in this browser? This cannot be undone.")) {
+        try { localStorage.removeItem(key); resetEditor(); renderSaved(); feedback.textContent = "Saved traditions cleared from this browser."; }
+        catch { feedback.textContent = "Could not clear browser storage. Check storage settings and try again."; }
+      }
+    });
     renderSaved();
   }
 
