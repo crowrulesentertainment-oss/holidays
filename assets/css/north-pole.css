@@ -18,3 +18,27 @@
 .np-map-art{position:relative;min-height:570px;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#1a4350 0%,#0d2934 48%,#081b23 100%);overflow:hidden}.np-map-art:before{content:"";position:absolute;inset:0;background-image:radial-gradient(#d9e7e7a6 .8px,transparent .8px);background-size:35px 35px;opacity:.22}.np-map-stars{position:absolute;top:35px;left:0;right:0;text-align:center;color:#d6c18b;letter-spacing:10px;opacity:.8}.np-globe{position:relative;width:min(78%,500px);aspect-ratio:1;border-radius:50%;overflow:hidden;border:1px solid #8cc1c64d;background:radial-gradient(circle at 35% 30%,#285d68,#143a49 52%,#0b2834 72%);box-shadow:inset -35px -25px 70px #03131caa,0 0 75px #5daab31a}.np-globe:before,.np-globe:after{content:"";position:absolute;inset:0;border-radius:50%;border:1px solid #8ec4ca20}.np-globe:before{transform:scaleX(.42)}.np-globe:after{transform:scaleY(.42)}.np-continent{position:absolute;background:#769e82;opacity:.8;filter:drop-shadow(0 0 5px #7bb3a340);clip-path:polygon(14% 0,66% 5%,90% 28%,78% 48%,95% 62%,65% 82%,44% 71%,32% 95%,12% 68%,22% 46%,0 24%)}.np-continent-a{width:36%;height:37%;left:18%;top:21%;transform:rotate(-18deg)}.np-continent-b{width:27%;height:43%;left:53%;top:37%;transform:rotate(22deg)}.np-continent-c{width:24%;height:20%;left:63%;top:16%;transform:rotate(-9deg)}.np-route-line{position:absolute;left:17%;top:27%;width:69%;height:48%;border-top:2px dashed #f2d28a;border-radius:50%;transform:rotate(18deg);opacity:.9}.np-map-pin{position:absolute;left:20%;top:27%;color:#ffe9ad;font-size:28px;text-shadow:0 0 15px #f5d27c;transition:left .4s,top .4s}.np-map-label{position:absolute;left:25%;top:32%;color:#f6e3b2;font-size:9px;letter-spacing:1.5px;white-space:nowrap}.np-map-caption{position:absolute;bottom:35px;left:12px;right:12px;text-align:center;font-size:9px;letter-spacing:2px;color:#92b2b8}
 .np-finale{text-align:center;padding:85px 22px;background:#163a3f;color:white}.np-finale>p:not(.np-kicker){max-width:590px;margin:20px auto;color:#d2dfdc;font-size:13px;line-height:1.9}.np-finale .np-actions{justify-content:center}
 @media(max-width:760px){.np-hero{min-height:600px;background-position:60% center}.np-hero-content{width:calc(100% - 44px);margin:0 auto;padding:65px 0}.np-hero h1{font-size:clamp(52px,13vw,75px)}.np-intro{padding:65px 22px 35px}.np-rooms{padding:0 15px 60px;gap:16px}.np-room,.np-room:nth-child(even){grid-template-columns:1fr}.np-room:nth-child(even) .np-room-image{order:0}.np-room-image{min-height:230px}.np-room-copy{padding:25px 22px}.np-tracker{grid-template-columns:1fr}.np-tracker-copy{padding:55px 24px}.np-map-art{min-height:390px}.np-globe{width:min(76%,340px)}.np-reindeer-grid{gap:7px}.np-reindeer-grid>div{padding:12px}.np-finale{padding:65px 22px}.np-finale .np-actions{flex-direction:column;align-items:stretch;max-width:360px;margin-left:auto;margin-right:auto}}
+
+/* North Pole Village: letter keepsakes and route itinerary */
+.np-keepsakes{margin-top:25px;padding-top:20px;border-top:1px solid #e6e2d8}
+.np-keepsakes-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.np-keepsakes-heading h3,.np-itinerary h3{font-family:var(--serif);font-size:22px;font-weight:500;color:#213a36;margin:0}
+.np-keepsakes-heading>span{font-size:10px;color:#8b713e;white-space:nowrap}
+.np-saved-letters{display:grid;gap:10px;margin-top:13px}
+.np-saved-letter{background:#f8f6f0;border:1px solid #e7e1d5;padding:14px}
+.np-saved-letter>div:first-child{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.np-saved-letter strong{font-family:var(--serif);font-size:16px;font-weight:500;color:#29413b}
+.np-saved-letter small{font-size:9px;color:#7d8881}
+.np-saved-letter>p{font-size:12px;line-height:1.8;color:#53645d;white-space:normal;overflow-wrap:anywhere}
+.np-letter-actions{display:flex;flex-wrap:wrap;gap:8px}
+.np-letter-actions .np-button{min-height:35px;padding:8px 10px;font-size:10px}
+.np-itinerary{max-width:480px;margin-top:24px}
+.np-itinerary h3{color:#e8eee9;margin-bottom:10px}
+.np-itinerary ol{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+.np-itinerary li{position:relative;padding:9px 12px 9px 34px;border:1px solid #284650;color:#afc4c6;font-size:11px;transition:background .2s,border-color .2s}
+.np-itinerary li:before{content:"";position:absolute;left:13px;top:13px;width:7px;height:7px;border-radius:50%;background:#5b7d83}
+.np-itinerary li.is-complete{color:#d9e8d9;border-color:#446a59;background:#153b37}
+.np-itinerary li.is-complete:before{background:#a6d9b2}
+.np-itinerary li.is-current{color:#ffe7a9;border-color:#d3b36e;background:#233b3e}
+.np-itinerary li.is-current:before{background:#e7c783;box-shadow:0 0 0 4px #e7c78325}
+@media(max-width:760px){.np-saved-letter>div:first-child{align-items:flex-start;flex-direction:column;gap:2px}.np-letter-actions .np-button{flex:1}}
