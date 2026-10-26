@@ -12,6 +12,7 @@ A responsive, multi-page holiday discovery experience from CrowRules Entertainme
 - `nativity.html` — Christian Christmas and the Nativity
 - `tradition-builder.html` — create a personal tradition locally in the browser
 - `kitchen.html` — Mr. Claus's Kitchen recipe collection
+- `auth.html` — Supabase account creation, email/password sign-in, social OAuth, password recovery, and membership status
 
 ## Run locally
 Open `index.html` in a browser, or serve the repository with any static web server. No build step is required.
@@ -21,8 +22,10 @@ Open `index.html` in a browser, or serve the repository with any static web serv
 - Holiday data is centralized in `assets/js/holidays.js`
 - Search and tradition builder work client-side
 - External images are loaded from Unsplash URLs; replace with owned/licensed assets before production
-- Forms do not send personal data to a server in this starter release
-- No authentication, database, or private user submissions are enabled yet
+- Supabase Auth powers email/password sign-in, account creation, password recovery, and configured Google, Apple, Discord, and GitHub OAuth providers
+- The account page calls the existing authenticated `membership-status` Edge Function to read membership and Holiday Hub entitlement information
+- Social providers require their own OAuth client credentials and must be enabled in Supabase before those buttons can complete sign-in
+- Accounts from different social providers are not automatically merged; account linking must be configured and tested separately
 
 ## Next milestones
 1. Expand and fact-check the holiday library with reputable sources.
