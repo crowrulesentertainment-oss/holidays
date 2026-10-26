@@ -17,15 +17,14 @@ A cinematic, year-round holiday universe from CrowRules Entertainment. Built as 
 Open `index.html` directly, or serve the repository folder with any static HTTP server. No build step is required.
 
 ## GitHub Pages
-In the repository, open **Settings → Pages**, choose **Deploy from a branch**, select `main` and `/(root)`, then save. The site entry point is `index.html`.
+A GitHub Actions workflow is included at `.github/workflows/pages.yml`. In the repository, open **Settings → Pages** and set **Build and deployment → Source** to **GitHub Actions**. Save, then check the **Actions** tab for the deployment result. The workflow deploys the repository root; the site entry point is `index.html`.
 
 ## Supabase setup
-1. Open your Supabase project SQL Editor.
-2. Review and run `supabase/schema.sql`.
-3. In Supabase Authentication, configure your site URL and redirect URLs.
-4. Configure the providers you want to offer (for example Google or Apple) in Supabase and their provider consoles.
-5. Open `assets/js/supabase-config.js` and enter your project URL and publishable/anon key. These are browser-safe values when RLS is correctly configured. **Never put a service-role or secret key in this file.**
-6. If configuration is absent, the site stays in demo mode and clearly identifies that state.
+1. The Holiday Hub is configured to use the existing CrowRules Supabase project through `assets/js/supabase-config.js`, using its browser-safe publishable key. Never put a service-role or secret key in this file.
+2. The additive migration `supabase/migrations/20261025000000_holiday_hub_member_features.sql` creates the member tables used by this site without replacing the existing CrowRules holiday catalog or Universal Membership tables. It has been applied to the connected project.
+3. In Supabase Authentication, configure the site URL and allowed redirect URLs for the deployed GitHub Pages URL and local testing.
+4. Configure Google and Apple OAuth in Supabase and their provider consoles before enabling those buttons in production.
+5. If configuration is absent, the site stays in demo mode. Real account access requires the site's URL to be listed in Supabase Auth redirect settings.
 
 The supplied CrowUniverse logo is referenced from the existing public Supabase Storage URL. Replace the URL only if you have a new approved asset location.
 
