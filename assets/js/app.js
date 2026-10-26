@@ -155,5 +155,23 @@
     $("#tracker-reset").addEventListener("click",()=>{if(trackerTimer)clearInterval(trackerTimer);trackerTimer=null;trackerIndex=0;paint();play.textContent="▶ Begin the journey";status.textContent="The sleigh is ready at the North Pole. Start the simulation to begin.";});paint();
   }
   function setMainAnchor(){const main=$("main");if(main&&!main.id)main.id="main";}
-  document.addEventListener("DOMContentLoaded",async()=>{setMainAnchor();header();footer();await setupSupabase();renderHolidayGrid();renderHolidayDetail();renderRecipes();letters();traditions();auth();tracker();});
+  document.addEventListener("DOMContentLoaded",async()=>{
+    setMainAnchor();header();footer();
+    try { await setupSupabase(); }
+    catch (e) {
+      console.error("[Holiday Hub] Supabase startup error",e);
+      document.documentElement.dataset.supabaseStatus="unavailable";
+      document.documentElement.dataset.supabaseReason="Supabase startup failed. Open the browser console for details.";
+    }
+    // Initialize membership immediately so unrelated page widgets cannot prevent its status from updating.
+    try { auth(); }
+    catch (e) {
+      console.error("[Holiday Hub] Membership UI initialization failed",e);
+      const note=$("#auth-mode-note");
+      if(note) note.textContent="Membership page script error. Open the browser console and report the first red error.";
+    }
+    for (const init of [renderHolidayGrid,renderHolidayDetail,renderRecipes,letters,traditions,tracker]) {
+      try { init(); } catch (e) { console.error("[Holiday Hub] Page feature failed:",init.name,e); }
+    }
+  });
 })();
