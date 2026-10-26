@@ -34,8 +34,30 @@
   let supabase = null, authMode = "signin", trackerTimer = null, trackerIndex = 0;
   async function setupSupabase() {
     const cfg = window.CROW_SUPABASE_CONFIG || {};
-    if (!cfg.url || !cfg.anonKey || !window.supabase?.createClient) return null;
-    try { supabase = window.supabase.createClient(cfg.url, cfg.anonKey); return supabase; } catch (e) { console.warn("Supabase setup unavailable", e); return null; }
+    const configNote = !cfg.url || !cfg.anonKey
+      ? "Supabase configuration is missing. Check assets/js/supabase-config.js."
+      : !window.supabase?.createClient
+        ? "The Supabase client library did not load. Check your connection or content blockers, then refresh."
+        : "";
+    if (configNote) {
+      console.error("[Holiday Hub] " + configNote);
+      document.documentElement.dataset.supabaseStatus = "unavailable";
+      document.documentElement.dataset.supabaseReason = configNote;
+      return null;
+    }
+    try {
+      supabase = window.supabase.createClient(cfg.url, cfg.anonKey, {
+        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+      });
+      document.documentElement.dataset.supabaseStatus = "ready";
+      document.documentElement.dataset.supabaseReason = "";
+      return supabase;
+    } catch (e) {
+      console.error("[Holiday Hub] Supabase initialization failed", e);
+      document.documentElement.dataset.supabaseStatus = "unavailable";
+      document.documentElement.dataset.supabaseReason = "Supabase client initialization failed. Check the browser console.";
+      return null;
+    }
   }
   function header() {
     const host = $("#site-header"); if (!host) return;
@@ -117,8 +139,14 @@
     $("#forgot-password").addEventListener("click",async()=>{if(!supabase){status.textContent="Password recovery becomes available after Supabase is configured.";return;}const email=$("#auth-email").value.trim();if(!email){status.textContent="Enter your email address first.";return;}const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});status.textContent=error?error.message:"If the account exists, a password reset email will be sent."});
     $$("[data-provider]").forEach(b=>b.addEventListener("click",async()=>{if(!supabase){status.textContent="Configure Supabase and enable the "+b.dataset.provider+" provider before using social sign-in.";return;}const {error}=await supabase.auth.signInWithOAuth({provider:b.dataset.provider,options:{redirectTo:location.origin+location.pathname}});if(error)status.textContent=error.message;}));
     $("#signout-btn").addEventListener("click",async()=>{if(supabase)await supabase.auth.signOut();$("#member-session").classList.add("hidden");form.classList.remove("hidden");status.textContent="You have signed out.";});
-    if(supabase){supabase.auth.onAuthStateChange((_event)=>{refreshSession();});refreshSession();}
-    else note.textContent="Demo mode — configure Supabase to enable real accounts. Social sign-in requires provider setup.";
+    if(supabase){
+      note.textContent="Connected to CrowRules Supabase. Sign in or create your Universal Membership account.";
+      supabase.auth.onAuthStateChange((_event)=>{refreshSession();});
+      refreshSession();
+    } else {
+      note.textContent=document.documentElement.dataset.supabaseReason || "Supabase is unavailable. Refresh the page and check the browser console for the setup error.";
+      note.setAttribute("role","status");
+    }
   }
   function tracker(){
     const play=$("#tracker-play");if(!play)return;const stops=["The North Pole","Northern Europe","The Mediterranean","Asia-Pacific","The final story stop"];const destinations=["The North Pole","Northern Europe","The Mediterranean","Asia-Pacific","The final story stop"];const sleigh=$("#map-sleigh"),status=$("#tracker-status"),bar=$("#tracker-progress-bar"),dest=$("#tracker-destination");
